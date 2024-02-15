@@ -1,0 +1,106 @@
+<div>  
+    <span mat-dialog-title>Modifier la charge pévue</span> 
+    <form [formGroup]="fb"  (ngSubmit)="onUpdatePhase()">  
+        <div class="form-row">
+            <div class="form-group col-md-12">  
+              <!--
+                <label>Phase :</label>
+                 <select 
+                  class="form-control" 
+                  formControlName="phaseType"  
+                  [ngClass]="{ 'is-invalid': submitted && f.phaseType.errors }"
+                 > 
+                      <option [value]="'PLANIFICATION'" >Planification</option> 
+                      <option [value]="'CONCEPTION'">Conception</option> 
+                      <option [value]="'ANALYSE'">Analyse</option>
+                      <option [value]="'CLOTURE'">Clôture</option>  
+                      <option [value]="'CADRAGE'">Cadrage</option>
+                      <option [value]="'REALISATION'">Réalisation</option> 
+                      <option [value]="'TEST'" >Test</option> 
+                      <option [value]="'DEPLOIEMENT'">Déploiement</option>  
+                      
+                      <div *ngIf="submitted && f.phaseType.errors" class="invalid-feedback"> 
+                        <div *ngIf="f.phaseType.errors.required">Phase requis</div>
+                    </div> 
+                      
+                 </select> -->
+                
+                
+              </div>
+          </div>   
+          <div class="form-row"> 
+            <div class="form-group col-md-6">  
+              <label style="display: flex;"> <div>Charge prévue (Heures)</div> <div style="color: red;">*</div> :</label>
+               <input 
+                 type="number"
+                 class="form-control" 
+                 id="duree" 
+                 formControlName="duree" 
+                 [ngClass]="{ 'is-invalid': submitted && f.duree.errors }"
+               
+               > 
+               <div *ngIf="submitted && f.duree.errors" class="invalid-feedback"> 
+                 <div *ngIf="f.duree.errors.required">Veuillez saisir la charge</div>
+               </div>
+            </div>
+           </div>
+           <!--
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label>Date de début :</label>   
+              <input  
+                   type="date"  
+                   class="form-control"  
+                   id="DateDebut" 
+                   formControlName="dateDebut" 
+                   [ngClass]="{ 'is-invalid': submitted && f.dateDebut.errors }"
+                  >  
+                  <div *ngIf="submitted && f.dateDebut.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.dateDebut.errors.required">Date de début requis</div>
+                </div> 
+              </div>
+          </div>   
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+              <label>Date de fin estimée :</label>  
+              <input  
+                   type="date"  
+                   class="form-control"  
+                   id="DateFin"  
+                   formControlName="dateFin"  
+                   [ngClass]="{ 'is-invalid': submitted && f.dateFin.errors }"
+                   >   
+                   <div *ngIf="submitted && f.dateFin.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.dateFin.errors.required">Date de Fin requis</div>
+                </div>     
+                   
+              </div>
+          </div> -->
+          <div class="form-row">   
+              <div class="form-group col-md-6"> 
+                <button  
+                [disabled]="this.isLoading"  
+                mat-button  
+                style="background-color: green; color: white; width: 100%;"
+                class="ajoutbtn" 
+                type="submit"> 
+                  <span *ngIf="!this.isLoading">Mettre à jour</span> 
+                  <div *ngIf="this.isLoading" class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+             </button>  
+
+              </div>
+              <div  class="form-group col-md-6"> 
+                <button  
+                 [disabled]="this.isLoading"  
+                 type="button" 
+                 style="margin-right: 10px; width: 100%;" 
+                 mat-button (click) = "this.Annuler()">Annuler</button>
+              </div>
+
+          </div>   
+       </form>   
+
+</div>
+

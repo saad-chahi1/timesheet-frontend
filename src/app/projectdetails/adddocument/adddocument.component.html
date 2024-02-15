@@ -1,0 +1,43 @@
+<div> 
+  <span mat-dialog-title>Ajouter des piéces jointes</span>  
+  <div class="row"> 
+  <div class="col-md-12"> 
+  <ngx-dropzone   
+    accept="application/pdf"
+    (change)="onSelect($event)">  
+    <ngx-dropzone-label>Drop Files to upload or Click</ngx-dropzone-label>  
+    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">  
+      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>  
+    </ngx-dropzone-preview>  
+  </ngx-dropzone>   
+</div> 
+</div>
+  
+
+  <div class="row" style="margin-top: 15px;">   
+    <div class="col-md-6"> 
+      <button  
+        [disabled]="this.isLoading || files.length == 0 "   
+        mat-button  
+        style="background-color: green; color: white; width: 100%;"
+        class="ajoutbtn" 
+        (click)="adddocuments()"
+         
+         > 
+        <span *ngIf="!this.isLoading">Ajouter</span>  
+        <div *ngIf="this.isLoading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+         </div>
+   </button>  
+
+    </div>
+    <div  class="col-md-6"> 
+      <button  
+       [disabled]="this.isLoading"  
+       type="button" 
+       style="margin-right: 10px; width: 100%;" 
+       mat-button (click) = "this.Annuler()">Annuler</button>
+    </div>
+</div>   
+
+</div>

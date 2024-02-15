@@ -1,0 +1,315 @@
+
+<div class="py-2" style="background-color: rgb(237, 241, 242); padding: 10px;">  
+ <div class="container-fluid"> 
+    <div class="row br" style="min-height: 7vh; background-color: white;">   
+       
+             <div class="col-sm-4" fxLayout="column" fxLayoutGap="20px" style=" align-items: center; padding: 10px 10px 10px 10px; ">       
+          
+             <h5 class="card-title"> Du <strong class="text-info">{{ getDateObject(weekdata[0]) | date : "dd/MM/yyyy"}} </strong> Au <strong class="text-info">{{ getDateObject(weekdata[4]) | date : "dd/MM/yyyy"}} </strong></h5>
+                
+                <div> 
+                   <input class="form-control" name="from" [defaultValue]="defaultdatevalue" (change)="onDateChange($event)" type="date" /> 
+                </div>  
+             
+             </div> 
+             <div class="col-sm-4" style="padding: 20px; text-align: center;  "> 
+               
+                 <span class="nbt">Temps saisi</span>  <h3 class="th">{{this.getTotalTimesheetDuration()}}</h3>
+
+             </div>
+             <div class="col-sm-4" style="padding: 20px; ">  
+                <div fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" > 
+                    <span class="timesheetetat">Statut</span>  
+                      <div fxLayout="row"  fxLayoutAlign="space-around center" fxLayoutGap="10px" [ngSwitch]="this.datatable.status">        
+                      <span *ngSwitchCase="'SUBMITTED'"  class="badge badge-info" style="font-size: 14px; max-height: 25px;">En attente d'approbation</span> 
+                      <span *ngSwitchCase="'APPROUVED'"  class="badge badge-success " style="font-size: 14px; max-height: 25px;">Approuvée</span>   
+                      <span *ngSwitchCase="'REJECTED'"  class="badge badge-danger " style="font-size: 14px; max-height: 25px;">Rejetée</span>
+                      <span *ngSwitchDefault class="badge badge-secondary " style="font-size: 14px; max-height: 25px;">Non soumise</span> 
+                      <button *ngIf="this.datatable.status == 'REJECTED'" mat-raised-button class="moredetails"  (click)="rejectiondetails()">plus de détails</button>
+                    </div>
+                  </div>
+             </div>
+     </div>  
+     <div class="row br" style="background-color: white; min-height: 30px; margin-top: 15px; padding: 10px;"> 
+          <button mat-raised-button class="mdemandes" (click)="openSubmittedTimesheets()"> <i class="fas fa-list-alt"></i> Feuille de temps soumises</button>
+     </div>
+     <div class="row br" (click)="alert()" style="background-color: white; min-height: 70vh; margin-top: 15px; padding: 10px; "> 
+         
+      <div class="container-fluid" [ngClass]="{disablecontainer:this.datatable.status == 'SUBMITTED' || this.datatable.status == 'APPROUVED'}" >   
+            <div class="row" >  
+              <div fxLayout="row" fxLayoutGap="30px" >  
+                <button type="button"  
+                        (click)="AjouterLigne()"  
+                        class="btn btn-outline-info" 
+                        [disabled]="this.timesheetloading"
+                        >
+                  <i class="fas fa-plus"></i>  Ajouter une ligne 
+                </button>  
+
+                <div fxLayout="row" fxLayoutGap="10px">    
+                  <button
+                         class="save" 
+                         [disabled]="this.saving || !this.isBeforeCurentDate(weekdata[0]) || this.datatable.data.length == 0"  
+                         (click)="savetimesheet()" mat-raised-button  
+                         
+                  >  
+                   <div *ngIf="this.saving" class="spinner-border" role="status">
+                     <span class="sr-only">Loading...</span>
+                   </div> 
+                    <div *ngIf="!this.saving"> 
+                      <i class="fas fa-save"></i>  
+                        Sauvegarder 
+                    </div> 
+                  </button>   
+    
+                  <button class="soum" 
+                       [disabled]="!isTimesheetSubmittable()  || !this.isBeforeCurentDate(weekdata[0]) ||  this.datatable.data.length == 0 || this.saving" 
+                       (click)="submittimesheet()"  
+                       mat-raised-button > 
+                      
+                      <div *ngIf="this.submiting" class="spinner-border" role="status">
+                       <span class="sr-only">Loading...</span>
+                     </div> 
+                        
+                      <div *ngIf="!this.submiting "> 
+                       <i class="fas fa-location-arrow"></i> Soumettre 
+                      </div>
+                      
+                     
+                     </button>
+                 </div>
+              </div>  
+              <div class="ml-auto"> 
+               <div class="lu" *ngIf="this.datatable.lastupdate"> Dernière modification : <strong>{{ this.datatable.lastupdate }}</strong></div>  
+               
+              </div>
+            </div>
+             
+            <!-- 
+            <div class="row"  fxLayout="row"fxLayoutGap="20px" > 
+              <div> <button (click)="startimer()" class="miniteur" mat-raised-button> <i class="far fa-clock"></i> Démarer le minuteur</button> </div>
+              <div class="timerwrapper"  fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px"> 
+                <div class="timer"  draggable="true">{{timer}} </div>   
+                <i class="fas fa-stopwatch"></i>
+                
+              </div>   
+              
+              <button mat-raised-button [disabled]="timer =='00:00'" (click)="resettimer()"  >Réinitialiser</button> 
+              <button mat-raised-button [disabled]="timer =='00:00'" (click)="pauseTimer()" >Pause</button>
+            </div>    
+           -->  
+
+            <div class="row timesheetwrap" (click)="alert()" >     
+             <button (click)="AjouterLigne()" *ngIf="this.datatable.data.length == 0 && this.timesheetloading == false" mat-raised-button style="position: absolute; top: 50%; left: 45%;"><i class="fas fa-plus"></i>Ajouter une ligne</button>
+              <table id="timesheettable" class="styled-table" style=" width: 100% ;"> 
+                  <thead>  
+                      <tr>  
+                        <th></th>
+                        <th style="width: 100px;">Client</th> 
+                        <th style="width: 100px;">Projet</th> 
+                        <th style="width: 100px;">Phase</th>
+                        <th>  
+                           <div>Lundi</div>
+                           {{ getDateObject(weekdata[0]) | date : "dd/MM/yyyy"}} 
+                        <th>  
+                           <div>Mardi</div>
+                           {{ getDateObject(weekdata[1]) | date : "dd/MM/yyyy"}} 
+                        </th> 
+                        <th>
+                          <div>Mercredi</div>
+                          {{ getDateObject(weekdata[2]) | date : "dd/MM/yyyy"}}   
+                        </th> 
+                        <th>  
+                          <div>Jeudi</div>
+                          {{ getDateObject(weekdata[3]) | date : "dd/MM/yyyy"}} 
+                        </th> 
+                        <th>  
+                          <div>Vendredi</div>
+                          {{ getDateObject(weekdata[4]) | date : "dd/MM/yyyy"}} 
+                        </th>   
+                       
+                     </tr> 
+       
+                 </thead>     
+               
+              <tbody class="tbody">  
+               <tr *ngIf="this.timesheetloading"> <td colspan="9"> <mat-progress-bar style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar> </td> </tr>  
+                  <tr *ngFor="let t of datatable.data ; let i = index" >    
+                      <td style="width: 80px; text-align: center;"   >   
+                         <div fxLayout="row" fxLayoutAlign="center center"   fxLayoutGap="10px" > 
+                             <i class="fas fa-trash trash" style="cursor: pointer;"  (click)="DeleteRow(t.phase)" ></i> 
+                             <i class="fas fa-pen-square pensqu" style="cursor: pointer;" (click)="UpdatePhase(t)" ></i>
+                          </div> 
+                      </td>  
+
+                    <td>{{t.phase.project.client.nom_client}}</td> 
+                       <td>{{t.phase.project.nom}}</td> 
+                       <td>{{ 
+                          getPhaseName(t.phase.phaseType)
+                        }}</td>
+        
+                     <td style="border-width: 0px; width : 75px; position: relative;">  
+                        
+                        <input  
+                           (focus)="showDescriptiOnpopup(i+'001')"
+                           id="{{'i'+i+'001'}}" 
+                           [(ngModel)]="this.datatable.data![i].week[0].duration"
+                           type="time" 
+                           [ngClass]="{disabletd:this.isBeforeCurentDate(weekdata[0]) == false || this.datatable.status == 'SUBMITTED'}"/> 
+                      
+                           <div  
+                            class="PL" 
+                            #divdesc   
+                            id="{{i+'001'}}"    
+                            style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                            > 
+                           <strong>Description</strong>
+                             <textarea   
+                                 id="{{'t'+i+'001'}}"
+                                 [(ngModel)]="this.datatable.data![i].week[0].description" 
+                                 rows="2" 
+                                 cols="20"  
+                                 (blur)="hideDescriptionPopup(i+'001')"
+                                 style="height: 75px; width: 200px;"> 
+                             </textarea>
+                             </div> 
+       
+                     </td>
+                     <td style="border-width: 0px; width: 75px; position: relative;"> 
+                       <input  
+                          (focus)="showDescriptiOnpopup(i+'002')"    
+                          id="{{'i'+i+'002'}}"
+                          [(ngModel)]="this.datatable.data![i].week[1].duration"
+                          value="{{t.week[1].duration}}"
+                          type="time"  
+                          [ngClass]="{disabletd:this.isBeforeCurentDate(weekdata[1]) == false  || this.datatable.status == 'SUBMITTED'}" 
+                       /> 
+                       <div  
+                         class="PL"   
+                         id="{{i+'002'}}"   
+                         #divdesc
+                         style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                       > 
+                         <strong>Description</strong>
+                         <textarea   
+                            id="{{'t'+i+'002'}}"
+                            rows="2" 
+                            cols="20"
+                            [(ngModel)]="this.datatable.data![i].week[1].description"  
+                            (blur)="hideDescriptionPopup(i+'002')"   
+                            style="height: 75px; width: 200px;"> 
+                         </textarea>
+                     </div>  
+                     </td> 
+                     <td style="border-width: 0px; width: 75px; position: relative;"> 
+                       <input  
+                          (focus)="showDescriptiOnpopup(i+'003')"   
+                          id="{{'i'+i+'003'}}"
+                          [(ngModel)]="this.datatable.data![i].week[2].duration"
+                          type="time"   
+                          [ngClass]="{disabletd:this.isBeforeCurentDate(weekdata[2]) == false  || this.datatable.status == 'SUBMITTED'}" 
+                           
+                           /> 
+                       <div  
+                         class="PL"   
+                         id="{{i+'003'}}"   
+                         #divdesc
+                         style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                       > 
+                        <strong>Description</strong>
+                        <textarea   
+                            id="{{'t'+i+'003'}}"
+                            rows="2" 
+                            cols="20" 
+                            [(ngModel)]="this.datatable.data![i].week[2].description" 
+                            (blur)="hideDescriptionPopup(i+'003')"    
+                            style="height: 75px; width: 200px;"> 
+                        </textarea>
+                     </div> 
+                     </td> 
+                     <td style="border-width: 0px; width: 75px; position: relative;"> 
+                       <input  
+                         (focus)="showDescriptiOnpopup(i+'004')"   
+                         id="{{'i'+i+'004'}}"
+                         [(ngModel)]="this.datatable.data![i].week[3].duration"  
+                         [ngClass]="{disabletd:this.isBeforeCurentDate(weekdata[3]) == false  || this.datatable.status == 'SUBMITTED'}" 
+                          type="time" /> 
+                       <div  
+                         class="PL"   
+                         id="{{i+'004'}}"   
+                         #divdesc
+                         style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                       > 
+                       <strong>Description</strong>
+                        <textarea   
+                            id="{{'t'+i+'004'}}"
+                            rows="2" 
+                            cols="20" 
+                            [(ngModel)]="this.datatable.data![i].week[3].description"
+                            (blur)="hideDescriptionPopup(i+'004')"   
+                            style="height: 75px; width: 200px;"> 
+                        </textarea>
+                     </div> 
+                     </td> 
+                     <td style="border-width: 0px; width: 75px; position: relative;"> 
+                       <input  
+                            (focus)="showDescriptiOnpopup(i+'005')" 
+                            type="time"  
+                            id="{{'i'+i+'005'}}" 
+                            [(ngModel)]="this.datatable.data![i].week[4].duration" 
+                            [ngClass]="{disabletd:this.isBeforeCurentDate(weekdata[4]) == false  || this.datatable.status == 'SUBMITTED'}" 
+                       /> 
+                       <div  
+                         class="PL"   
+                         id="{{i+'005'}}"   
+                         #divdesc
+                         style="border-width: 0px; position: absolute; top: 50px; right: 50%; z-index: 1000;  visibility: hidden; "  
+                       > 
+                        <strong>Description</strong>
+                        <textarea   
+                            id="{{'t'+i+'005'}}"
+                            rows="2" 
+                            cols="20" 
+                            [(ngModel)]="this.datatable.data![i].week[4].description" 
+                           
+                            (blur)="hideDescriptionPopup(i+'005')"   
+                            style="height: 75px; width: 200px;"> 
+                        </textarea>
+                       </div> 
+                     </td> 
+                  
+                  </tr>  
+              </tbody>  
+              <tfoot>
+
+           </tfoot>   
+           </table>  
+                    
+            </div>
+          </div>    
+     </div> 
+     <div class="row br" style="background-color: white ; min-height: 15vh; margin-top: 10px; padding: 10px; ">  
+       <div class="col-12"> 
+                <label class="ds">La description</label>
+       </div>      
+       <div class="col-12"> 
+           <textarea  
+              class="form-control"   
+              [disabled]="!this.isBeforeCurentDate(weekdata[0])  || this.datatable.status == 'SUBMITTED' || this.datatable.status == 'APPROUVED' || this.timesheetloading"
+              [(ngModel)]="this.datatable.description"
+              rows="5"></textarea>
+       </div>      
+     </div>  
+     <div class="row br" style="background-color: white ;  margin-top: 10px; padding: 10px;">  
+         <button mat-raised-button  
+           (click)="openprintview()"   
+           [disabled]="this.timesheetloading"
+           class="ml-auto"  
+           color="primary" >
+            <i class="fas fa-print"></i> Imprimer </button>
+     </div>  
+    
+ 
+ </div>  
+
+</div>

@@ -1,0 +1,145 @@
+<div style="padding: 25px;" class="container-fluid">  
+   <div style="background-color: white;  border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;"> 
+     <div style="padding: 20px;"> 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Clients</li>
+            </ol>
+          </nav>
+     </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 20px;"> 
+        <div class="search">  
+            <input  
+              type="text"  
+              class="form-control"  
+              id="searchbar"  
+              placeholder="Chercher.." 
+              [(ngModel)]="searchvalue"
+
+              >
+        </div>
+        <div  
+             fxLayout="row"  
+             fxLayout.xs="column"
+             fxLayout.sm="column"    
+             fxLayoutAlign="space-between center"  
+             > 
+            
+            <button mat-raised-button   
+                 class="buttons"
+                 style="background-color: green; color: white;"   
+                 [disabled]="loading"
+                 (click)="OpenAddClient()"> 
+                 Ajouter un nouveau client 
+            </button>   
+
+            <button  
+                (click)="Refresh()"
+                mat-button class="buttons"> 
+                <i class="fas fa-sync-alt"></i>  
+                 Actualiser 
+            </button>
+
+            <div class="dropdown" >
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Exporter 
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" (click)="exportexcel('clienttable')">EXCEL</a>
+                  <a class="dropdown-item" (click)="savepdf()">PDF</a>
+                  <a class="dropdown-item" href="#">CSV</a>
+                </div>
+              </div>
+                      
+        </div> 
+       
+    </div> 
+   </div>
+
+    <div style="padding: 20px; background-color: rgb(255, 255, 255); border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ; margin-top: 10px;">  
+      <div fxLayout="row" fxLayoutAlign="space-between center"> 
+        <div style="width: 100%; min-height:50vh;"  > 
+          <div class="table-responsive"> 
+            <table class="table table-hover  table-bordered" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"></th>
+                    <th scope="col">Nom du client</th>
+                    <th scope="col">Adresse couriel</th>
+                    <th scope="col">Pays</th>
+                    <th scope="col">Téléphone</th> 
+                    <th scope="col">La charge consommée ( Heures )</th>
+                    <th scope="col"></th>  
+                  </tr>
+                </thead>
+                <tr *ngIf="loading"> <td colspan="8"> <mat-progress-bar style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar> </td> </tr>  
+                <tbody *ngIf="!loading">
+                  <tr *ngFor="let client of clients | clientsearch:searchvalue  | slice: (page-1) * pageSize : page * pageSize  ; let i = index;">
+                    <td scope="row">{{i+1}}</td> 
+                    <td>
+                      <div  
+                        class="clientpic" 
+                        title="Nespresso"
+                        > 
+                        {{client.nom_client[0] | uppercase}}
+                    </div>
+                    </td>
+                    <td>{{client.nom_client}}</td>
+                    <td>{{client.email}}</td>
+                    <td>{{client.pays}}</td> 
+                    <td>{{client.phone_num}}</td>   
+                    
+                    <td style="text-align: center;">   <span style="padding: 8px; width: 80px; font-size: 17px;" class="badge badge-info">{{this.getCharge(client['hours'])}}</span>  </td>
+                 
+                    <td>  
+                        <div class="dropdown" >
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item"  
+                                 style="cursor: pointer;" 
+                                 (click)="deleteClient(client.id)" 
+                              > 
+                                <i class="fas fa-user-minus"></i>  
+                                Effacer 
+                              </a>
+                              <a class="dropdown-item"   
+                                 style="cursor: pointer;" 
+                                 (click)="onUpdateClient(client)"
+                              >  
+                                <i class="fas fa-user-edit"></i>  
+                                Modifier 
+                              </a> 
+                              <a 
+                                 class="dropdown-item"   
+                                 style="cursor: pointer;" 
+                                 (click)="openClientProjects(client.id)"
+                           >  
+                                <i class="fas fa-list"></i>  
+                                Consulter les projets
+                           </a>
+                            </div>
+                          </div></td>
+                  </tr>
+                  <tr>
+                </tbody> 
+                
+              </table>
+              </div>
+        </div>   
+      </div>  
+      <div fxLayout="row">  
+        <ngb-pagination 
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [collectionSize]="clients.length"> 
+       </ngb-pagination>  
+
+      </div>
+     
+    </div>
+ </div>
+          

@@ -1,0 +1,179 @@
+<div class="timesheetwrap" style="width: 100%;">  
+    <div fxLayout="row" fxLayoutAlign="space-between center">  
+         <strong>{{datatable.employe.prenom}} {{datatable.employe.nom}}</strong>   
+         <strong> {{getDateObject(weekdata[0]) | date : "dd/MM/yyyy"}} - {{getDateObject(weekdata[4]) | date : "dd/MM/yyyy"}}</strong> 
+         <div [ngSwitch]="datatable.status">  
+            <span *ngSwitchCase="'SUBMITTED'"  class="badge badge-info " style="font-size: 14px; max-height: 25px;">En attente d'approbation</span> 
+            <span *ngSwitchCase="'APPROUVED'"  class="badge badge-success " style="font-size: 14px; max-height: 25px;">Approuvée</span>   
+            <span *ngSwitchCase="'REJECTED'"  class="badge badge-danger " style="font-size: 14px; max-height: 25px;">Rejetée</span> 
+            <span *ngSwitchCase="'SAVED'"  class="badge badge-secondary " style="font-size: 14px; max-height: 25px;">Enregistrée</span>    
+          </div>
+
+    </div>
+    <table id="timesheettable" class="styled-table" style="width: 100%;"> 
+        <thead>  
+            <tr>  
+         
+              <th style="width: 100px;">Client</th> 
+              <th style="width: 100px;">Projet</th> 
+              <th style="width: 100px;">Phase</th>
+
+              <th>  
+                 <div>Lundi</div>
+                 {{ getDateObject(weekdata[0]) | date : "dd/MM/yyyy"}}
+               </th> 
+              <th>  
+                 <div>Mardi</div>
+                 {{ getDateObject(weekdata[1]) | date : "dd/MM/yyyy"}} 
+              
+              </th> 
+              <th>
+                 <div>Mercredi</div>
+                 {{ getDateObject(weekdata[2]) | date : "dd/MM/yyyy"}}
+              </th> 
+              <th>  
+                <div>Jeudi</div>
+                {{ getDateObject(weekdata[3]) | date : "dd/MM/yyyy"}}
+              </th> 
+              <th>  
+                <div>Vendredi</div>
+                {{ getDateObject(weekdata[4]) | date : "dd/MM/yyyy"}}
+              </th>   
+             
+           </tr> 
+
+       </thead>     
+     
+    <tbody class="tbody"> 
+        <tr *ngFor="let t of datatable.data ; let i = index">    
+
+          <td>{{t.phase.project.client.nom_client}}</td> 
+          <td>{{t.phase.project.nom}}</td> 
+          <td>{{ 
+              getPhaseName(t.phase.phaseType)
+            }}</td>
+       
+           <td style="border-width: 0px; width : 75px; position: relative;" (mouseleave)="hideDescriptionPopup(i+'001')" >  
+            <div > 
+              <button  class="butt" mat-raised-button  (click)="showDescriptiOnpopup(i+'001')"><i class="fas fa-stopwatch"></i>  {{this.datatable.data![i].week[0].duration.slice(0,5)}}</button>    
+            </div> 
+                  <div  
+                      class="PL"   
+                      id="{{'t'+i+'001'}}"   
+                      
+                      style=" position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden;"  
+                  >
+                     <div class="desctitle" > Description </div> 
+                     <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;" class="desc"
+                      > 
+                        {{this.datatable.data![i].week[0].description }} 
+                     </div> 
+                  </div> 
+
+            </td> 
+
+            <td style="border-width: 0px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(i+'002')"> 
+              <div> 
+                <button  class="butt" mat-raised-button  (click)="showDescriptiOnpopup(i+'002')"><i class="fas fa-stopwatch"></i> {{this.datatable.data![i].week[1].duration.slice(0,5)}}</button>    
+              </div> 
+                  <div  
+                    class="PL"   
+                    id="{{'t'+i+'002'}}"  
+                    style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                  > 
+                    <div class="desctitle">Description</div> 
+                    <div style="height: 75px; width: 250px ;overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                     {{this.datatable.data![i].week[1].description }} 
+                    </div> 
+            </div>  
+            
+           </td>  
+             
+            <!-- -->  
+           <td style="border-width: 0px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(i+'003')"> 
+            <div> 
+              <button class="butt" mat-raised-button  (click)="showDescriptiOnpopup(i+'003')"><i class="fas fa-stopwatch"></i> {{this.datatable.data![i].week[2].duration.slice(0,5)}}</button>    
+            </div> 
+                 <div  
+                   class="PL"   
+                   id="{{'t'+i+'003'}}"  
+                   style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                 > 
+                   <div class="desctitle">Description</div> 
+                   <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                    {{this.datatable.data![i].week[2].description }} 
+                   </div> 
+                 </div> 
+            
+           </td> 
+           <td style="border-width: 0px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(i+'004')"> 
+                <div> 
+                  <button class="butt" mat-raised-button  (click)="showDescriptiOnpopup(i+'004')"><i class="fas fa-stopwatch"></i> {{this.datatable.data![i].week[3].duration.slice(0,5)}}</button>    
+                </div>  
+
+                 <div  
+                   class="PL"   
+                   id="{{'t'+i+'004'}}"  
+                   style="border-width: 0px; position: absolute; top: 50px; left: 50%; z-index: 1000;  visibility: hidden; "  
+                 > 
+                   <div class="desctitle">Description</div> 
+                   <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                    {{this.datatable.data![i].week[3].description }} 
+                   </div> 
+               </div> 
+            
+           </td> 
+           <td style="border-width: 0px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(i+'005')"> 
+      
+            <div> 
+              <button  class="butt" mat-raised-button  (click)="showDescriptiOnpopup(i+'005')"> <i class="fas fa-stopwatch"></i> {{this.datatable.data![i].week[4].duration.slice(0,5)}}</button>    
+            </div> 
+             <div  
+               class="PL"   
+               id="{{'t'+i+'005'}}"  
+               style="border-width: 0px; position: absolute; top: 50px; right : 50%; z-index: 1000;  visibility: hidden; "  
+             > 
+               <div class="desctitle">Description</div> 
+               <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                {{this.datatable.data![i].week[4].description }} 
+               </div> 
+             </div>  
+           </td> 
+        
+        </tr>  
+    </tbody>  
+    <tfoot>
+
+ </tfoot>   
+</table>    
+
+<mat-expansion-panel >
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+       Description
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+     <div>{{datatable.description}}</div>
+
+</mat-expansion-panel>  
+
+<div style="margin-top: 5px;" *ngIf="datatable.status == 'APPROUVED' || datatable.status == 'REJECTED'"> 
+<mat-expansion-panel>
+                           <mat-expansion-panel-header>
+                             <mat-panel-title>
+                                Timesheet détails
+                             </mat-panel-title>
+                    
+                           </mat-expansion-panel-header>
+          <div [ngSwitch]="datatable.status">  
+              <div *ngSwitchCase="'APPROUVED'">Approuvée le <strong>{{getDateTime(datatable.approuvedAt).date | date : 'short' }}</strong> par <strong>{{datatable.approuvedBy | uppercase}}</strong></div>   
+              <div *ngSwitchCase="'REJECTED'"> 
+                <div> Rejetée le <strong>{{datatable.rejectedAt}}</strong> par <strong>{{datatable.rejectedBy}}</strong></div> 
+                <div style="margin: 15px;"> La raison : {{ datatable.raisonRejection}}</div>
+              </div>   
+          </div>
+                      
+</mat-expansion-panel>  
+</div>
+                        
+</div>

@@ -1,0 +1,156 @@
+
+<div> 
+    
+    <div class="container-fluid">   
+    
+        <div class="row" > 
+            <div class="col-12"  >  
+              <div class="row">  
+                 <div class="col-sm-12">  
+                   <div  fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 10px; width: 100%px;">   
+                    <select 
+                        class="form-control"  
+                        style="width: 200px;"
+                        (change)="filter($event)"
+                        name = "status"
+                    >      
+                       <option [value]="'SUBMITTED'">En attente d'approbation</option>
+                       <option [value]="'APPROUVED'">Approuvée</option> 
+                       <option [value]="'REJECTED'">Rejtée</option>  
+                       <option [value]="'SAVED'">Enregistrée</option>
+                       <option [value]="'TOUS'">Tous</option>
+                    </select>
+                      
+                    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap = "10px">  
+                      <button   
+                      (click)="refresh()"
+                      mat-raised-button color=primary><i class="fas fa-sync"></i> Actualiser</button>
+                     <button   
+                        [ngClass]="this.data.length ==0 ? 'inactivebutton' : 'activebutton'"
+                        (click)="sendvalue()" 
+                        [disabled] = "this.data.length == 0"
+                        mat-raised-button> 
+                        <span *ngIf="!this.loading2"><i class="fas fa-save"></i> Sauvegarder</span>  
+                        <div *ngIf="this.loading2" class="spinner-border" role="status">
+                         <span class="sr-only">Loading...</span>
+                       </div>
+                     </button>
+                    </div>
+                     
+                 </div>   
+                 </div>
+
+              </div>
+                <div class="row">   
+                    <div class="col-12">
+                   
+                <mat-progress-bar *ngIf="this.loading==true" style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar>  
+                  <div  style="background-color: antiquewhite; width: 50%; text-align: center ; margin: 0 auto; padding: 10px; margin-top: 40px;"  *ngIf="this.timesheets.length == 0 && this.loading == false"> <strong>Aucune feuille trouvée</strong> </div>
+                  <div style="overflow-y:  scroll ; max-height: 450px; "> 
+                <div *ngFor="let timesheet of timesheets; let i = index" class="card" style="margin-bottom: 10px;">
+                  <div class="card-header"> 
+                    <div fxLayout="row" fxLayoutAlign="space-between center"> 
+                      <strong>{{getDate(timesheet.dateDebut) | date:'longDate'}} - {{getDate(timesheet.dateFin) | date:'longDate'}}</strong>
+                      <div>  
+                         
+                        <mat-radio-group *ngIf="timesheet.status == 'SUBMITTED'" (change)="checkvalue(i,$event,timesheet.id);" style="position: relative;">
+                            <mat-radio-button   
+                                  matTooltip="Rejeter"
+                                  [matTooltipPosition]="'below'"
+                                  color=primary  
+                                  value="REJECT"   
+                              ></mat-radio-button>
+                            <mat-radio-button   
+                                  matTooltip="Approuver"
+                                  [matTooltipPosition]="'below'"
+                                  color=primary    
+                                  value="APPROUVE"  
+                            ></mat-radio-button> 
+                           
+                        
+                        </mat-radio-group> 
+                        <div  
+                        class="PL" 
+                        id="{{'pl'+i}}" 
+                        style="border-width: 0px; position: absolute; top: 40px; right: 9%; z-index: 1000; visibility: hidden;  "  
+                        > 
+                                 <strong>Raisons de refus</strong>
+                                 <textarea id="{{'t'+i}}"  
+                                    (blur)="hidePopup(i)"   
+                                    (change)= "updateComment(timesheet.id,$event)"
+                                    rows="2"  
+                                    cols="20"  
+                                    style="height: 75px; width: 200px;"></textarea>
+                        </div> 
+                        
+                      </div> 
+                    </div>
+                    
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title"><strong> {{timesheet.employe.nom | uppercase }} {{ timesheet.employe.prenom | uppercase  }} </strong></h5>
+                    <div class="card-text" *ngIf="timesheet.status == 'APPROUVED' || timesheet.status == 'REJECTED'" style="padding-top: 10px;"> 
+                      <mat-expansion-panel 
+                     >
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                               Timesheet détails
+                            </mat-panel-title>
+                   
+                          </mat-expansion-panel-header>
+                          <div [ngSwitch]="timesheet.status">  
+                              <div *ngSwitchCase="'SUBMITTED'"> </div> 
+                              <div *ngSwitchCase="'APPROUVED'">Approuvée le <strong>{{timesheet.approuvedAt}}</strong> par <strong>{{timesheet.approuvedBy | uppercase}}</strong></div>   
+                              <div *ngSwitchCase="'REJECTED'"> 
+                                 <div> Rejetée le <strong>{{timesheet.rejectedAt}}</strong> par <strong>{{timesheet.rejectedBy}}</strong></div> 
+                                 <div style="margin: 15px;"> La raison : {{ timesheet.raisonRejection}}</div>
+                              </div>   
+                          </div>
+                      
+                        </mat-expansion-panel> 
+                       
+                       
+                    </div> 
+                 
+                    <div fxLayout="row" fxLayoutAlign="space-between center"  style=" margin-top: 10px;">  
+                    <div [ngSwitch]="timesheet.status">  
+                      <span *ngSwitchCase="'SUBMITTED'"  class="badge badge-info " style="font-size: 14px; max-height: 25px;">En attente d'approbation</span> 
+                      <span *ngSwitchCase="'APPROUVED'"  class="badge badge-success " style="font-size: 14px; max-height: 25px;">Approuvée</span>   
+                      <span *ngSwitchCase="'REJECTED'"  class="badge badge-danger " style="font-size: 14px; max-height: 25px;">Rejetée</span> 
+                      <span *ngSwitchCase="'SAVED'"  class="badge badge-secondary " style="font-size: 14px; max-height: 25px;">Enregistrée</span>    
+                    </div> 
+                    <div class="totalduration"> 
+                      <div [ngSwitch]="timesheet.status">  
+                         <span *ngSwitchCase="'SUBMITTED'" class="suborsav" >{{ timesheet.totalduration}} <i class="fas fa-business-time"></i> </span> 
+                        <span *ngSwitchCase="'APPROUVED'" class="green" >{{timesheet.totalduration}}<i class="fas fa-business-time"></i> </span>   
+                        <span *ngSwitchCase="'REJECTED'" class="red" >{{timesheet.totalduration}}<i class="fas fa-business-time"></i> </span> 
+                        <span *ngSwitchCase="'SAVED'" class="suborsav">{{timesheet.totalduration}}<i class="fas fa-business-time"></i> </span>    
+                      </div> 
+                    </div> 
+                    <!--
+                    <button  
+                        mat-raised-button  
+                        style="float: right;" 
+                        color="primary"
+                        (click)="openTimesheet(timesheet)"
+                    > 
+                      <i class="fas fa-eye"></i> Consulter 
+                   </button>    -->
+                  </div>
+                 
+                  </div>
+                </div>
+
+              </div> 
+                 </div>
+
+                  </div> 
+      
+              
+            </div>
+        </div>
+
+    </div>
+
+</div> 
+

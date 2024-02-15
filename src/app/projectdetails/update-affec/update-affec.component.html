@@ -1,0 +1,127 @@
+<div>  
+    <span mat-dialog-title>MODIFIER UNE AFFECTATION</span> 
+    <form [formGroup]="fb"  (ngSubmit)="onUpdateSubmit()">  
+        <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label>Employé :</label>
+                 <select 
+                  class="form-control" 
+                  formControlName="employe"  
+                  [ngClass]="{ 'is-invalid': submitted && f.employe.errors }"
+                 > 
+                      <option *ngFor="let employe of equipe" [value]="employe.id" > 
+                          {{ employe.nom }} {{ employe.prenom}}
+                      </option>   
+                 </select>  
+                 <div *ngIf="submitted && f.employe.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.employe.errors.required">Employé requis</div>
+                 </div> 
+                 
+              </div>
+          </div>  
+        <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label>Phase du projet :</label>
+                 <select 
+                  class="form-control" 
+                  formControlName="phase"  
+                  [ngClass]="{ 'is-invalid': submitted && f.phase.errors }"
+                 >    <option *ngFor="let phase of phases" [value]="phase.id" [ngSwitch]="phase.phaseType"> 
+                           <div *ngSwitchCase="'REALISATION'"> 
+                             Réalisation
+                           </div> 
+                           <div *ngSwitchCase="'CADRAGE'"> 
+                             Cadrage
+                           </div> 
+                           <div *ngSwitchCase="'CONCEPTION'"> 
+                             Conception
+                           </div> 
+                           <div *ngSwitchCase="'ANALYSE'"> 
+                             Analyse
+                           </div> 
+                           <div *ngSwitchCase="'TEST'"> 
+                             Test
+                           </div> 
+                           <div *ngSwitchCase="'DEPLOIEMENT'"> 
+                             Déploiement
+                           </div> 
+                           <div *ngSwitchCase="'PLANIFICATION'"> 
+                             Planification
+                           </div> 
+                           <div *ngSwitchCase="'CLOTURE'"> 
+                             Clôture
+                           </div> 
+                      </option>  
+                 </select>  
+                 <div *ngIf="submitted && f.phase.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.phase.errors.required">Phase requis</div>
+                 </div> 
+              </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label>Description des tâches :</label>   
+                <textarea  
+                     type=""  
+                     class="form-control"  
+                     id="description" 
+                     formControlName="descriptionTaches" 
+                     [ngClass]="{ 'is-invalid': submitted && f.descriptionTaches.errors }"
+                     rows="3" 
+                     placeholder="Description">  
+           </textarea>
+                  <div *ngIf="submitted && f.descriptionTaches.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.descriptionTaches.errors.required">Description de tâches requis</div>
+                </div> 
+              </div>
+          </div>   
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+              <label>Date de fin prévue:</label>  
+              <input  
+                   type="date"  
+                   class="form-control"  
+                   id="dateFinPrevue"  
+                   formControlName="dateFinPrevue"  
+                   [ngClass]="{ 'is-invalid': submitted && f.dateFinPrevue.errors }"
+                   >   
+                   <div *ngIf="submitted && f.dateFinPrevue.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.dateFinPrevue.errors.required">Date de Fin prévue requis</div>
+                </div>     
+                   
+              </div> 
+              <div class="form-group col-md-12"> 
+                <label>Status :</label>   
+                <select 
+                  class="form-control" 
+                  formControlName="status"  
+                  [ngClass]="{ 'is-invalid': submitted && f.status.errors }"
+               >  
+               <option [value]="'EN_COURS'">En cours</option> 
+               <option [value]="'TERMINE'">Terminé</option>
+               </select>
+                 
+                </div>
+          </div> 
+          <div class="form-row">   
+              <div class="form-group col-md-6"> 
+                <button  
+                [disabled]="this.isLoading"  
+                mat-button  
+                style="background-color: green; color: white; width: 100%;"
+                class="ajoutbtn" 
+                type="submit"> 
+                  <span *ngIf="!this.isLoading">Sauvegarder</span> 
+             </button>  
+
+              </div>
+              <div  class="form-group col-md-6"> 
+                <button  
+                 type="button" 
+                 style="margin-right: 10px; width: 100%;" 
+                 mat-button (click) = "this.Annuler()">Annuler</button>
+              </div>
+          </div>   
+       </form>   
+
+</div>

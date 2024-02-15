@@ -1,0 +1,239 @@
+<div class="py-2" style="background-color: rgb(237, 241, 242); padding: 10px;"> 
+    <div class="container-fluid"> 
+        <div class="row br"  fxLayout="row" fxLayoutAlign="space-between center" style="background-color: white; min-height: 30px; padding: 10px;">  
+           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px"> 
+             <img width="80px" height="80px" src="../../../../assets/times.png" />
+             <div class="nbt" > <strong>Validation des feuilles de temps</strong></div> 
+           </div>   
+           <button mat-raised-button class="mdemandes" (click)="openSubmittedTimesheets()"><i class="fas fa-list"></i> Feuilles de temps à valider </button>
+        </div>
+      
+        <div class="row br" style="min-height: 7vh; background-color: white; padding: 10px;  margin-top: 15px;">
+           <div class="col-sm-12" fxLayout="row" fxLayoutAlign="space-between center"> 
+              
+            <div fxLayout="row" fxLayoutGap="15px" fxLayout.xs="column" style="width: 60%;" > 
+                <div style="padding-top: 5px;"> <i class="fas fa-user" ></i></div> 
+                <ng-select  
+                    [(ngModel)]="selectedCar"  
+                    style="min-width: 200px;" 
+                    placeholder="Selectionner un employé" 
+                    [(ngModel)]="selectedemploye"
+                    > 
+                    <ng-option [value]="'tous'"><strong>Tous</strong></ng-option>
+                    <ng-option *ngFor="let employe of employes" [value]="employe.id">{{employe.fullName}}</ng-option>
+                </ng-select>    
+                <strong>Du</strong>
+                <input class="form-control" max-width="200px" name="dateDebut" [(ngModel)]="dateDebut"  type="date" /> 
+                <strong>Au</strong> 
+                <input class="form-control" max-width="200px" name="dateFin" [(ngModel)]="dateFin"  type="date" />  
+                
+                <!--status jsut added-->
+                <select 
+                  class="form-control" 
+                  [(ngModel)]="status" 
+                  style="width: 207px;"
+                  name = "status"
+                 
+                 >   
+                     <option [value]="'tous'"><strong>Tous</strong></option>   
+                     <option [value]="'SUBMITTED'">En attente d'approbation</option>
+                     <option [value]="'APPROUVED'">Approuvée</option> 
+                     <option [value]="'REJECTED'">Rejtée</option>  
+                     <option [value]="'SAVED'">Enregistrée</option>
+                    
+                 </select>    
+            </div>     
+
+            <div>
+              <button [ngClass]="isvalid() ? 'abutton' : 'dbutton' " mat-raised-button (click)="searchfortimesheet()" [disabled]="!isvalid()"  ><i class="fas fa-search"></i></button>
+            </div> 
+            
+            
+            </div>
+                
+               
+        </div>   
+        <!--
+        <div class="row"> 
+            <mat-progress-bar *ngIf="this.timesheetloading" mode="indeterminate"></mat-progress-bar>
+        </div> -->
+      
+
+        <div class="row br" style="min-height: 70vh; background-color: white; padding: 10px; margin-top: 15px;"> 
+          <div class="col-12"> 
+      
+
+                 <div class="row">    
+                   <div style="width: 100%;"> 
+                    <button    
+                       style="float: right; background-color: #095d85 ;"
+                       (click)="refresh()"
+                       mat-raised-button color=primary><i class="fas fa-sync"></i> Actualiser</button>
+                   </div>
+
+                    <div class="timesheetwrap" style="width: 100%;">  
+                      <!--   <app-timesheetmanagement (onRefresh)="refresh($event)" [timesheetdata]="timesheets" ></app-timesheetmanagement> -->
+                        <table  id="timesheettable" class="styled-table  table-bordered" style="width: 100%;"> 
+                            <thead>  
+                                <tr>  
+                                  <th style="width: 80px;">Consultant</th> 
+                                  <th style="width: 100px;">Semaine du</th>
+                                  <th style="width: 80px;">Client</th> 
+                                  <th style="min-width: 150px;">Projet</th> 
+                                  <th style="max-width: 150px;">Phase</th> 
+                                  <th>  
+                                     <div>Lundi</div>
+                                   </th> 
+                                  <th>  
+                                     <div>Mardi</div>
+                                  </th> 
+                                  <th>
+                                     <div>Mercredi</div>       
+                                  </th> 
+                                  <th>  
+                                    <div>Jeudi</div>
+                                  </th> 
+                                  <th>  
+                                    <div>Vendredi</div>
+                                  </th>  
+                                  <th style="width: 60px;"><div>Total</div></th>
+                                  <th style="width: 100px;">Statut</th>   
+                                  <th style="width: 75px;">Actions</th>
+                               </tr> 
+                    
+                           </thead>    
+                           <tr *ngIf="this.loading"> <td colspan="13"> <mat-progress-bar  mode="indeterminate"></mat-progress-bar> </td> </tr>           
+                           <tr *ngIf="!this.loading && timesheets.length == 0">  
+                             <td colspan="13"> <div style="background-color: antiquewhite; width: 50%; text-align: center ; margin: 0 auto; padding: 10px;"> Aucune feuille trouvée</div></td>  
+                           </tr> 
+                           <tbody *ngIf="!this.loading" class="tbody">  
+
+                            <ng-container *ngFor="let timesheet of timesheets ; let j = index">  
+                                
+                                 <tr>
+                                     <td [attr.rowspan]="timesheet.data.length + 1"> <strong>{{ timesheet.employe.prenom[0] | uppercase}}. {{timesheet.employe.nom}}</strong></td> 
+                                     <td [attr.rowspan]="timesheet.data.length + 1" > <a [routerLink]="" (click)="showtimesheet(timesheet)">{{getFormatedDate(timesheet.dateDebut)}}  </a></td>    
+                                 </tr>  
+                                 <tr *ngFor="let t of timesheet.data; let i = index ">
+                                        
+                                        <td>{{t.phase.project.client.nom_client}}</td>  
+                                        <td>{{t.phase.project.nom}}</td>   
+                                        <td>{{ getPhaseName(t.phase.phaseType)}}</td> 
+                                          <td style="border-width: 1px; width : 75px; position: relative;" (mouseleave)="hideDescriptionPopup(j+''+i+'001')" >  
+                                            <div > 
+                                              <button  class="butt" mat-raised-button  (click)="showDescriptiOnpopup(j+''+i+'001')"><i class="fas fa-stopwatch"></i>  {{t.week[0].duration.slice(0,5)}}</button>    
+                                            </div>  
+
+                                                  <div  
+                                                      class="PL descin"   
+                                                      id="{{j+''+i+'001'}}"   
+                                                      
+                                                  >
+                                                     <div class="desctitle" > Description </div> 
+                                                     <div  
+                                                        class="desc" 
+                                                        style="height: 75px; width: 250px ;overflow-y : scroll; word-wrap: break-word; width: inherit;"
+                                                      > 
+                                                      {{t.week[0].description }} 
+                                                     </div> 
+                                                  </div> 
+                                
+                                            </td>  
+                                            <td style="border-width: 1px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(j+''+i+'002')"> 
+                                                <div> 
+                                                  <button  class="butt" mat-raised-button  (click)="showDescriptiOnpopup(j+''+i+'002')"><i class="fas fa-stopwatch"></i> {{t.week[1].duration.slice(0,5)}}</button>    
+                                                </div> 
+                                                    <div  
+                                                      class="PL descin"   
+                                                      id="{{j+''+i+'002'}}"  
+                                                    
+                                                    > 
+                                                      <div class="desctitle">Description</div> 
+                                                      <div style="height: 75px; width: 250px ;overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                                                        {{t.week[1].description }} 
+                                                      </div> 
+                                              </div>  
+                                              
+                                             </td>   
+                                             <td style="border-width: 1px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(j+''+i+'003')"> 
+                                                <div> 
+                                                  <button class="butt" mat-raised-button  (click)="showDescriptiOnpopup(j+''+i+'003')"><i class="fas fa-stopwatch"></i> {{t.week[2].duration.slice(0,5)}}</button>    
+                                                </div> 
+                                                     <div  
+                                                       class="PL descin"   
+                                                       id="{{j+''+i+'003'}}"  
+                                                       
+                                                     > 
+                                                       <div class="desctitle">Description</div> 
+                                                       <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                                                        {{t.week[2].description }} 
+                                                       </div> 
+                                                     </div> 
+                                              </td>  
+                                              <td style="border-width: 1px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(j+''+i+'004')"> 
+                                                <div> 
+                                                  <button class="butt" mat-raised-button  (click)="showDescriptiOnpopup(j+''+i+'004')"><i class="fas fa-stopwatch"></i> {{t.week[3].duration.slice(0,5)}}</button>    
+                                                </div>  
+                                
+                                                 <div  
+                                                   class="PL descin"   
+                                                   id="{{j+''+i+'004'}}"  
+                                                  
+                                                 > 
+                                                   <div class="desctitle">Description</div> 
+                                                   <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                                                    {{t.week[3].description }} 
+                                                   </div> 
+                                               </div> 
+                                               </td> 
+                                               <td   style="border-width: 1px; width: 75px; position: relative;" (mouseleave)="hideDescriptionPopup(j+''+i+'005')"> 
+                                    
+                                                <div> 
+                                                  <button  class="butt" mat-raised-button  (click)="showDescriptiOnpopup(j+''+i+'005')"> <i class="fas fa-stopwatch"></i> {{t.week[4].duration.slice(0,5)}}</button>    
+                                                </div> 
+                                                 <div  
+                                                   class="PL descin"   
+                                                   id="{{j+''+i+'005'}}"  
+                                                   
+                                                 > 
+                                                   <div class="desctitle">Description</div> 
+                                                   <div style="height: 75px; width: 250px;  overflow-y : scroll; word-wrap: break-word; width: inherit;"  class="desc"> 
+                                                    {{t.week[4].description }}
+                                                   </div> 
+                                                 </div>  
+                                               </td>   
+                                               <td *ngIf="i == 0" [attr.rowspan]="timesheet.data.length + 1" > <strong style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"> {{ timesheet.totalduration}} </strong>  </td> 
+                                               <td *ngIf="i == 0" [attr.rowspan]="timesheet.data.length + 1" >
+                                                <div [ngSwitch]="timesheet.status">  
+                                                    <strong *ngSwitchCase="'SUBMITTED'"  class="submitted" style="font-size: 12px; max-height: 25px; width: 100%;">En attente d'approbation</strong> 
+                                                    <span *ngSwitchCase="'APPROUVED'"  class="approuved" style="font-size: 12px; max-height: 25px; width: 100%;">Approuvée</span>   
+                                                    <span *ngSwitchCase="'REJECTED'"  class="rejected" style="font-size: 12px; max-height: 25px; width: 100%;">Rejetée</span> 
+                                                    <span *ngSwitchCase="'SAVED'"  class="saved" style="font-size: 12px; max-height: 25px; width: 100%;">Enregistrée</span>    
+                                                  </div>
+                                               </td>  
+                                               <td *ngIf="i == 0" [attr.rowspan]="timesheet.data.length + 1">  
+                                                <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap = "5px" >  
+                                                  <i  [ngClass]="canvalid(timesheet) ? 'fas fa-check-square valid' : 'fas fa-check-square vac disablecontainer'" (click)="approuve(timesheet.id)" ></i>
+                                                  <i [ngClass]="canvalid(timesheet) ? 'fas fa-minus-square refuse' : 'fas fa-minus-square vac disablecontainer'" (click)="reject(timesheet.id)" ></i>
+                                                </div> 
+                                                   
+                                               </td> 
+
+                                </tr>
+                                 
+                                
+                            </ng-container>  
+                        </tbody> 
+                        </table>
+                    </div>
+                 </div> 
+
+             </div>
+           <hr>
+        </div>
+    </div>
+   
+      <div id="test"></div> 
+  
+      
+</div>

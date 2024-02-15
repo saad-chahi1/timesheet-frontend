@@ -1,0 +1,23 @@
+.clientpic { 
+    
+    height:35px;
+    width: 35px; 
+    background-color: #6A2CC3;
+    color: white; 
+    border-radius: 50%; 
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+  
+}
+
+th { 
+    text-align: center;  
+    background-color: rgb(184,204,234) ; 
+    color : rgb(0, 0, 0) ; 
+
+}
+
+td { 
+    text-align: center;
+}

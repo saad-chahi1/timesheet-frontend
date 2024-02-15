@@ -1,0 +1,175 @@
+.position-fixed{
+    position: fixed
+  } 
+
+.profileim{ 
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}    
+
+
+.roundedlogo { 
+    zoom: 14%;
+    -webkit-border-radius:30px;
+    -moz-border-radius:30px;
+    border-radius:30px;
+}
+
+.fullname { 
+   font-size: 20px;
+
+} 
+.uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+.buttonNav { 
+    font-family: "Gill Sans", sans-serif; 
+    font-size: 14px; 
+    width: 120px; 
+    color:white;
+}   
+
+.dropdownitem { 
+    display: inline-block;
+    z-index: 999;
+    position: absolute;
+}
+
+.profilepicmenu { 
+    height:20px;
+    width: 20px; 
+    background-color: #532396;
+    color: white; 
+    font-size: 10px; 
+    border-radius: 50%; 
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+}
+
+.buttonNavSelected { 
+ 
+
+        //border: 6px solid crimson;
+        font-weight: 600;
+        background-color: white;
+        color: rgb(32, 31, 31);
+        margin: 0; 
+        -webkit-transition: all 0.5s linear;
+        -moz-transition: all 0.5s linear;
+        -o-transition: all 0.5s linear;
+        transition: all 0.5s linear;
+
+
+}   
+
+.togglebutton { 
+      
+    display: none;
+}
+
+
+
+.routes { 
+    display: block;
+}
+
+.dropdown{ 
+   position: relative; 
+   display: inline-block;
+}  
+
+.t1 { 
+
+    cursor: pointer;
+}
+
+.dropdown-content .t1:hover { 
+     color: rgb(206, 104, 9);
+}
+
+
+.cnt1 { 
+    display: none;
+    position: absolute;
+    background-color: #636262; 
+    right : -16px; 
+    top: 35px;
+    min-width: 280px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}   
+
+.tm { 
+    color: rgb(1,66,106); cursor: pointer;
+} 
+
+.tm:hover { 
+    
+} 
+
+.notifications{ 
+    max-height: 200px; 
+    overflow-y: scroll;
+}
+
+.cnt2 { 
+    display: none;
+    position: absolute;
+    background-color: #f3f1f1; 
+    right : -16px; 
+    top: 35px;
+    min-width: 400px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+} 
+
+.cnt2 .empty { 
+     text-align: center; 
+     color: #636262;
+}
+
+
+/*
+  .dropdown:hover .dropdown-content {display: block;} 
+*/
+  
+  /* Links inside the dropdown */
+  .cnt1  a {
+    color: black;
+    padding: 12px 16px;  
+    text-align: center;
+    font-size: 12px; 
+    color: white ;
+    text-decoration: none;
+    display: block;
+  } 
+
+  .cnt2  div {
+    color: black;
+    padding: 12px 16px;  
+    text-align: start ;
+    font-size: 12px; 
+    color: white ;
+    text-decoration: none;
+    display: block;
+  }
+  
+
+@media only screen and (max-width: 768px) { 
+  
+    .togglebutton { 
+      
+        display: block;
+    } 
+
+
+
+    .profiledropdown { 
+        display: none;
+    }
+
+}
+

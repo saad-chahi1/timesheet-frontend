@@ -1,0 +1,145 @@
+<div>  
+    <span mat-dialog-title class="title">Modifier le projet</span>
+    <form [formGroup]="fb"  (ngSubmit)="onSubmitProject()">  
+        <div class="form-row">
+            <div class="form-group col-md-12">
+              <input  
+                   type="text"  
+                   class="form-control"  
+                   id="NomProjet" 
+                   formControlName="nom" 
+                   [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+                   placeholder="Nom de projet">  
+                <div *ngIf="submitted && f.nom.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.nom.errors.required">Nom de projet requis</div>
+                </div> 
+              </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+                <label for="client">Client :</label>   
+                <select 
+                    class="form-control"
+                    id = "client" 
+                    formControlName="client"
+                 >   
+                    <option  
+                      *ngFor="let client of clients"  
+                      [value]="client.id"
+                    > 
+                     {{client.nom_client}} 
+                    </option>
+
+                </select>
+              </div> 
+              <div class="form-group col-md-6"> 
+                <label for="client">Statut du projet :</label> 
+                <select 
+                 class="form-control" 
+                 id="status" 
+                 formControlName="status"
+                > 
+                    <option [value]="'EN_COURS'" >En cours</option> 
+                    <option [value]="'TERMINE'"> Terminé</option> 
+                    <option [value]="'TERMINE_EN_RETARD'"> Terminé en retard</option> 
+                    <option [value]="'ANNULE'"> Annulé</option>
+                </select>
+
+              </div>
+          </div>   
+          <div class="form-row">
+            <div class="form-group col-md-6">  
+                   <label style="display: flex;"> <div>Charge prévue (Heures)</div> <div style="color: red;">*</div> :</label>
+                    <input 
+                      type="number"
+                      class="form-control" 
+                      id="duree" 
+                      formControlName="duree" 
+                      [ngClass]="{ 'is-invalid': submitted && f.duree.errors }"
+                    
+                    > 
+                    <div *ngIf="submitted && f.duree.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.duree.errors.required">Veuillez saisir la charge</div>
+                    </div>
+            </div>
+
+          </div>   
+          
+          
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+                <label>Date de début :</label>   
+              <input  
+                   type="date"  
+                   class="form-control"  
+                   id="DateDebut" 
+                   formControlName="dateDebut" 
+                  > 
+              </div> 
+              <div class="form-group col-md-6"> 
+                <label>Date de fin estimée :</label>  
+                <input  
+                     type="date"  
+                     class="form-control"  
+                     id="DateFin"  
+                     formControlName="dateFin" 
+                     > 
+                </div>
+          </div>   
+             
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+              <label for="description">Description : </label>  
+              <textarea  
+                   type=""  
+                   class="form-control"  
+                   id="description" 
+                   formControlName="description"
+                   rows="3" 
+                   placeholder="Description">  
+              </textarea>
+              </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+              <label>Coût estimatif de projet :</label>  
+              <input  
+                   type="number"  
+                   class="form-control"  
+                   id="couts" 
+                   formControlName="coutestim" 
+                   placeholder="Coût estimatif"
+                   > 
+            </div> 
+            <div class="form-group col-md-6"> 
+                <label>Type de projet :</label>  
+                <input  
+                     type="text"   
+                     [attr.disabled]="''"
+                     class="form-control"  
+                     id="typeprojet" 
+                     formControlName="type" 
+                     placeholder="Type de projet"
+                     > 
+              </div>
+             
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+             <button  
+                [disabled]="this.isLoading"  
+                mat-button  
+                style="background-color: green; color: white; width: 100%;"
+                class="ajoutbtn" 
+                type="submit"> 
+               <span *ngIf="!this.isLoading">Sauvegarder</span> 
+             </button> 
+            </div>
+            <div class="form-group col-md-6"> 
+             <button [disabled]="this.isLoading" type="button" style="margin-right: 10px; width: 100%;" mat-button (click) = "this.Annuler()">Annuler</button>
+            </div> 
+
+         </div> 
+  
+     </form>
+</div>

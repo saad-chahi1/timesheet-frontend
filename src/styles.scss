@@ -1,0 +1,117 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css"; 
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons'; 
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+*{ 
+    margin: 0; 
+    padding: 0;
+} 
+
+html,body{ 
+    background-color: white; 
+    font-size: 14px;
+}  
+
+
+.pdd { 
+    position: absolute;  
+    left: 43%;  
+    top: 50%;  
+    background-color: rgb(236, 233, 233);
+    padding: 10px 10px 10px 10px;  
+    border-radius: 4px;
+    font-family: serif;
+}
+
+
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+    }   
+ 
+
+    textarea:hover, 
+    input:hover, 
+    textarea:active, 
+    input:active, 
+    textarea:focus, 
+    input:focus,
+    button:focus,
+    button:active,
+    button:hover,
+    label:focus,
+    .btn:active,
+    .btn.active
+    {
+        outline:0px !important;
+        -webkit-appearance:none;
+        box-shadow: none !important;
+    } 
+
+
+    .green-snackbar {  
+
+        background-color: rgb(54, 177, 99); 
+        color: white;
+
+    }  
+
+    .green-snackbar button {  
+
+        background-color: rgb(54, 177, 99); 
+        color: white; 
+        border: none ;
+
+    }  
+
+    
+  
+    .red-snackbar {  
+         
+        background-color: #c73025; 
+        color: white;
+
+    } 
+
+
+    .orange-snackbar {  
+         
+        background-color: #f16b12; 
+        color: white;
+
+    }  
+
+    .orange-snackbar button {  
+         
+         
+        color: white;
+
+    } 
+
+   
+    .red-snackbar button {  
+         
+        background-color: #c73025; 
+        color: white !important ;  
+        border: none;
+ 
+    }  
+    .userpic { 
+      
+        height:35px;
+        width: 35px; 
+        background-color: #6A2CC3;
+        color: white; 
+        border-radius: 50%; 
+        display: flex; /* or inline-flex */
+        align-items: center; 
+        justify-content: center;
+      
+    }
+    
+
+    
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

@@ -1,0 +1,192 @@
+<div> 
+    <span mat-dialog-title> Mettre à jour le profil</span> 
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink>Informations personnelles</a>
+          <ng-template ngbNavContent> 
+          <div>     
+            <form style="margin-top: 20px;" [formGroup]="fb1"  (ngSubmit)="onUpdateManager()"> 
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input  
+                         type="text"  
+                         class="form-control"  
+                         id="username" 
+                         formControlName="username"
+                         [attr.disabled]="true"  
+                         placeholder="Nom d'utilisateur"> 
+                     
+                  </div> 
+              
+                </div>  
+                <div class="form-row">  
+                   <div class="form-group col-md-12"> 
+                      <input  
+                         type="email" 
+                         class="form-control" 
+                         id="email"  
+                         formControlName="email" 
+                         [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                         placeholder="Email"> 
+                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback"> 
+                          <div *ngIf="f.email.errors.required">Email requis</div>
+                          <div *ngIf="f.email.errors.email">Veuillez entrer une adresse électronique valide</div>
+                        </div>
+                   </div> 
+                </div> 
+                <div class="form-row">  
+                  <div class="form-group col-md-6"> 
+                      <input 
+                         type="text"  
+                         class="form-control"  
+                         id="Nom"
+                         formControlName="nom" 
+                         [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+                         placeholder="Nom"> 
+                         <div *ngIf="submitted && f.nom.errors" class="invalid-feedback"> 
+                          <div *ngIf="f.nom.errors.required">Nom requis</div>
+                        </div>
+                  </div> 
+                  <div class="form-group col-md-6 ">   
+                      <input 
+                           type="text"  
+                           class="form-control" 
+                           id="prenom" 
+                           formControlName="prenom"   
+                           [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+                           placeholder="Prénom"> 
+                           <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback"> 
+                             <div *ngIf="f.prenom.errors.required">Prénom requis</div>
+                           </div>
+                     </div>    
+                </div>   
+                <div class="form-row">  
+                  <div class="form-group col-md-12 ">   
+                   <input 
+                        type="tel" 
+                        class="form-control" 
+                        id="tel"  
+                        formControlName="numeroTele"
+                        placeholder="N*Tél">
+                  </div>  
+                </div>     
+              
+   
+                <div class="form-row">  
+                  <div class="form-group col-md-12 ">   
+                   <input 
+                        type="text" 
+                        class="form-control" 
+                        formControlName="adresse" 
+                        id="adresse" 
+                        placeholder="Adresse">
+                  </div>  
+                </div>   
+                <div class="form-row"> 
+                    <div *ngIf="this.errormessagePassword" class="alert alert-danger col-md-12" role="alert">
+                        {{this.errormessagePassword}} 
+                    </div>
+                </div> 
+                <div class="form-row"> 
+                   <div class="form-group col-md-6"> 
+                    <button  
+                         [disabled]="this.isLoading"  
+                         mat-button 
+                         class="ajoutbtn" 
+                         style="background-color: green; color: white; width: 100%;"  
+                         type="submit"> 
+                      <span >Mettre à jour</span> 
+                     
+                 </button> 
+                   </div> 
+                   <div class="form-group col-md-6"> 
+                    <button style="width: 100%;" (click)="Annuler()" [disabled]="this.isLoading" type="button" mat-raised-button >Annuler</button>
+                   </div>
+                </div>
+               
+              </form>    
+              </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink>Changer le mot de passe</a>
+          <ng-template ngbNavContent> 
+            <form style="margin-top: 20px;" [formGroup]="fb2"  (ngSubmit)="onUpdatePassword()"> 
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <input  
+                         type="password"  
+                         class="form-control"  
+                         id="username" 
+                         formControlName="password"
+                         placeholder="Mot de passe actuel"  
+                         [ngClass]="{ 'is-invalid': submittedprime && fprime.password.errors }"
+                      > 
+                      <div *ngIf="submittedprime && fprime.password.errors" class="invalid-feedback"> 
+                        <div *ngIf="fprime.newpassword.errors!.required">Mot de passe requis</div>
+                      </div> 
+                     </div> 
+                  </div> 
+                  <div class="form-row">
+                      <div class="form-group col-md-6"> 
+                       <input  
+                           type="password"  
+                           class="form-control"  
+                           id="username" 
+                           formControlName="newpassword" 
+                           [ngClass]="{ 'is-invalid': submittedprime && fprime.newpassword.errors }"
+                           placeholder="Nouveau mot de passe"  
+                       >
+                       <div *ngIf="submittedprime && fprime.newpassword.errors" class="invalid-feedback"> 
+                        <div *ngIf="fprime.newpassword.errors.required">Nouveau mot de passe requis</div>
+                        <div *ngIf="fprime.newpassword.errors.minlength">Un mot de passe doit contenir au minimum 8 caractères</div> 
+                       </div> 
+                      </div> 
+                      <div class="form-group col-md-6"> 
+                        <input  
+                            type="password"  
+                            class="form-control"  
+                            id="username" 
+                            formControlName="confirmpassword" 
+                            [ngClass]="{ 'is-invalid': submittedprime && fprime.confirmpassword.errors }"
+                            placeholder="Confirmer le nouveau mot de passe" 
+                        >  
+                        <div *ngIf="submittedprime && fprime.confirmpassword.invalid" class="invalid-feedback"> 
+                            <div *ngIf="fprime.confirmpassword.errors.required">La confirmation de mot de passe est obligatoire</div>
+                            <div *ngIf="!fprime.confirmpassword.errors.MustMatch">Les mots de passes doivent correspondre</div>
+                        </div> 
+                       </div>   
+                  </div>
+                  <div class="form-row">  
+                    
+                </div> 
+
+                <div class="form-row"> 
+                 <div class="form-group col-md-6"> 
+                  <button  
+                       [disabled]="this.isLoading"  
+                       mat-button 
+                       class="ajoutbtn" 
+                       style="background-color: green; color: white;"  
+                       type="submit" 
+                  > 
+                    <span >Mettre à jour le mot de passe</span> 
+                    
+                   </button> 
+                   </div>
+                   <div class="form-group col-md-6"> 
+
+                   </div>
+                 </div>
+            </form>
+             
+          </ng-template>
+        </li>
+  
+      </ul>
+      
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      
+    
+</div>
+

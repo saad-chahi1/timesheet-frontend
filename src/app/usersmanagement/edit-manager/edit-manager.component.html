@@ -1,0 +1,138 @@
+<div> 
+    <h1 mat-dialog-title>Modification - Gestionnaire</h1>   
+    <div mat-mat-dialog-content> 
+       
+        <form [formGroup]="fb"  (ngSubmit)="onSubmit()"> 
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input  
+                     type="text"  
+                     class="form-control"  
+                     id="username"  
+                     formControlName="username"
+                     [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  
+                     placeholder="Nom d'utilisateur"> 
+                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.username.errors.required">Nom d'utilisateu est requis</div>
+                      <div *ngIf="f.username.errors.minlength">Nom d'utilisateur doit contenir au moins 6 charactères</div>
+                  </div>     
+              </div>
+              <div class="form-group col-md-6">
+                <input  
+                     type="password" 
+                     class="form-control" 
+                     formControlName="password"
+                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" 
+                     id="inputPassword4"  
+                     placeholder="Mot de passe"> 
+                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.password.errors.required">Mot de passe est requis</div>
+                      <div *ngIf="f.password.errors.minlength">le mot de passe doit contenir au moins 6 charactères</div>
+                  </div>
+              </div>
+            </div>  
+            <div class="form-row">  
+               <div class="form-group col-md-12"> 
+                  <input  
+                     type="email" 
+                     class="form-control" 
+                     id="email"  
+                     formControlName="email" 
+                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                     placeholder="Email"> 
+                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.email.errors.required">Email est requise</div>
+                      <div *ngIf="f.email.errors.email">Veuillez entrer une adresse électronique valide</div>
+                    </div>
+               </div> 
+            </div> 
+            <div class="form-row">  
+              <div class="form-group col-md-12 "> 
+                  <input 
+                     type="text"  
+                     class="form-control"  
+                     id="Nom"
+                     formControlName="nom" 
+                     [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+                     placeholder="Nom"> 
+                     <div *ngIf="submitted && f.nom.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.nom.errors.required">Nom est requis</div>
+                    </div>
+              </div>  
+            </div>   
+            <div class="form-row">  
+              <div class="form-group col-md-12 ">   
+               <input 
+                    type="text"  
+                    class="form-control" 
+                    id="prenom" 
+                    formControlName="prenom"   
+                    [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+                    placeholder="Prénom"> 
+                    <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.prenom.errors.required">Prénom est requis</div>
+                    </div>
+              </div>  
+            </div>  
+            <div class="form-row">  
+              <div class="form-group col-md-12 ">   
+               <input 
+                    type="tel" 
+                    class="form-control" 
+                    id="tel"  
+                    formControlName="numeroTele"
+                    placeholder="N*Tél">
+              </div>  
+            </div>    
+            <div class="form-row">  
+              <div class="form-group col-md-12 ">   
+               <input 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="adresse" 
+                    id="adresse" 
+                    placeholder="Adresse">
+              </div>  
+            </div>  
+            <!--
+            <div class="form-row"> 
+              <div class="form-group col-md-12"> 
+                <input  
+                    type="file" 
+                    accept="image/png,image/jpeg" 
+                    (change)="onImageChanged($event)"  
+                    id="validatedCustomFile">
+                </div>
+            </div>  -->
+            <div class="form-row"> 
+                <div *ngIf="this.errormessage" class="alert alert-danger col-md-12" role="alert">
+                    {{this.errormessage}} 
+                </div>
+            </div>
+            <div class="form-row"> 
+               <div class="form-group col-md-6"> 
+
+                <button  
+                    [disabled]="this.isLoading"  
+                    mat-button 
+                    class="ajoutbtn"  
+                    style="background-color: green; color: white; width: 100%;"
+                    type="submit"> 
+                     <span *ngIf="!this.isLoading">Mettre à jour</span> 
+                     <div *ngIf="this.isLoading" class="spinner-border"  role="status">
+                     <span class="sr-only">Loading...</span>
+                   </div>
+              </button> 
+
+               </div> 
+               <div class="form-group col-md-6"> 
+                <button [disabled]="this.isLoading" type="button" style="width: 100%;" mat-button (click) = "this.Annuler()">Annuler</button>
+               </div>
+            </div>
+          
+          </form>
+
+    </div>
+    
+</div>
+

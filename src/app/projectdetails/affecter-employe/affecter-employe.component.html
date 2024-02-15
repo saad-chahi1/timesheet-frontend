@@ -1,0 +1,66 @@
+<div> 
+    <span mat-dialog-title style="color: #3a6a94;"> Affectation </span>
+    <form [formGroup]="fb"  (ngSubmit)="onAddSubmit()">  
+        <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label style="width: 100%; display: flex;">Employé <div style="color: red;">*</div> :</label>
+                 <select 
+                  class="form-control" 
+                  formControlName="employe"   
+                  
+                  [ngClass]="{ 'is-invalid': submitted && f.employe.errors }"
+                 > 
+                      <option *ngFor="let employe of equipe" [value]="employe.id" > 
+                          {{ employe.nom }} {{ employe.prenom}}
+                      </option>   
+                 </select>  
+                 <div *ngIf="submitted && f.employe.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.employe.errors.required">Veuillez selectionner un employé</div>
+                 </div> 
+                 
+              </div>
+          </div>   
+          <div class="form-row border" style="padding: 7px; padding-left: 20px;"> 
+               <div class="form-group col-md-12">  
+                 <mat-checkbox *ngIf="this.phases.length != 0" (change)="selectionnertout($event.checked)" color=primary style="float: right;">Selectionner tout</mat-checkbox>
+                <section class="example-section" style="height: 30vh;">
+                    <h5>Veuillez choisir au moins une phase :</h5>
+                    <ul> 
+                        <li *ngFor="let p of this.phases"><mat-checkbox [checked]= "state" (change)="updatephases($event.checked , p[0] )"  color=primary>{{p[1]}}</mat-checkbox></li>
+                    </ul> 
+                </section>  
+                <div *ngIf="submitted && f.phases.errors" style="color: red;" > 
+                     Veuillez choisir au moins une phase
+                   </div>
+               
+               </div> 
+
+          </div>  
+          <div class="form-row" style="margin-top: 5px;">   
+            <div class="form-group col-md-6"> 
+              <button  
+              [disabled]="this.isLoading"  
+              mat-button  
+              style="background-color: green; color: white; width: 100%;"
+              class="ajoutbtn" 
+              type="submit"> 
+                <span *ngIf="!this.isLoading">Sauvegarder</span>  
+                <div *ngIf="this.isLoading" class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+            </button>  
+
+            </div>
+            <div  class="form-group col-md-6"> 
+              <button  
+               [disabled]="this.isLoading"  
+               type="button" 
+               style="margin-right: 10px; width: 100%;" 
+               mat-button (click)="this.Annuler()" >Annuler</button>
+            </div>
+        </div>   
+   
+ </form>
+    
+
+</div>

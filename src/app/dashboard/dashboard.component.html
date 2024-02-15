@@ -1,0 +1,152 @@
+<div style="min-height: 100vh;">
+ <!-- SIDE NAV -->
+  <mat-sidenav-container style="min-height: 100vh;">
+    <mat-sidenav #sidenav style="width: 250px;" fixedInViewport="true" > 
+      <mat-nav-list> 
+       <a *ngFor="let route of routes" mat-list-item [routerLink]="route.path"> 
+         <span class="material-icons"> perm_identity </span>{{route.name}}  
+       </a>  
+         <a mat-list-item (click)="logout()"  mat-list-item><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      </mat-nav-list>
+    </mat-sidenav>
+   <mat-sidenav-content>
+          <div  style="min-height: 100vh;">  
+            <mat-toolbar style="position: fixed; z-index: 999; background-color: rgb(221, 229, 241)" > 
+              <mat-toolbar-row style="background-color: rgb(1,66,106) ; opacity: 0.9; height: 50px; "  > 
+                      <!-- Rooutes based on user role -->   
+              <button class="togglebutton" (click)="sidenav.toggle()" mat-icon-button >
+               <mat-icon style="color: white;">menu</mat-icon> 
+             </button> 
+             <!-- <img class="roundedlogo" src="../../assets/logo.jpg"/> -->     
+             <i style="font-size: 20px; color: white;" class="fas fa-clock"></i>      
+             <span  mat-button style="color: white; margin-top: 5px; margin-left: 7px; ">MyTime</span>
+               
+              <div fxLayout="row" fxHide.lt-md class="routes"  fxLayoutGap="40px" style="width: 100%; margin-left: 20px;"    >  
+                 <button class="buttonNav"  [ngClass]="{'buttonNavSelected' : selected == i+1 }" (click)="changeSelected(i+1)"   *ngFor="let route of routes ; let i = index ;" mat-button [routerLink]="route.path">  
+                    <i [ngClass] ="route.icon"></i>    
+                    {{route.name}} 
+                </button>
+              </div>     
+              <!-- 
+              <div style="width: 100%; background-color: black;">  
+                <i matBadge="5" class="fas fa-bell" style="color: white;" matBadgeColor="warn"></i>
+                <div class="dropdown" style="float: right;">   
+                  <div> 
+                    <i 
+                       #profileclick
+                       class="fas fa-user-circle"  
+                       style="color: white; height: 100%; cursor: pointer; float: right;"  
+                       ></i> 
+                  </div>
+                  <div class="dropdown-content"  [ngStyle]="{'display': isprofileclicked  ? 'block' : 'none' }" > 
+                       <a style="color: rgb(206, 104, 9); border-bottom: 1px solid white;">Mon Profil</a> 
+                        <a  class="t1" (click)="openprofile()" >Mes informations</a> 
+                        <a  class="t1" (click)="openpasswordactive()" >Changer mot de passe</a>
+                        <a  class="t1" (click)="logout()"> <i class="fas fa-power-off"></i> ME DÉCONNECTER</a>
+                
+                  </div> 
+                </div>
+              </div> -->
+      
+              <div class="dropdown" style="width: 100%;">    
+                
+                <div>  
+                    <i 
+                      #profileclick
+                      class="fas fa-user-circle"  
+                      style="color: white; height: 100%; cursor: pointer; float: right; margin-left: 20px;"  
+                     ></i>   
+                     <i  
+                         [matBadge]="notifications.length"   
+                         [matBadgeHidden]="notifications.length == 0"
+                         class="fas fa-bell" 
+                         #notifclick  
+                         style="color: white; float: right; cursor: pointer; "  
+                         matBadgeColor="warn"> 
+                     </i>
+                </div>
+                <div class="dropdown-content cnt1"  [ngStyle]="{'display': isprofileclicked  ? 'block' : 'none' }" > 
+                     <a style="color: rgb(206, 104, 9); border-bottom: 1px solid white;">Mon Profil</a> 
+                      <a *ngIf="!(getUserRole() === 'ADMIN')"  class="t1" (click)="openprofile()" >Mes informations</a> 
+                      <a *ngIf="!(getUserRole() === 'ADMIN')" class="t1" (click)="openpasswordactive()" >Changer mot de passe</a>
+                      <a  class="t1" (click)="logout()"> <i class="fas fa-power-off"></i> ME DÉCONNECTER</a>
+                </div>   
+                
+                <div class="dropdown-content cnt2"  [ngStyle]="{'display': isnotificationclicked  ? 'block' : 'none' }" > 
+                  <div   style="border-bottom: 1px solid  rgb(229,106,84); display: flex; justify-content: space-between; height: 60px;"> 
+                    <div style="color: rgb(229,106,84)"> 
+                      <i class="fas fa-bell"></i> Notifications  
+                        <div></div>
+                    </div>   
+                    <div><a (click)="hidenotifications()" class="tm">Tout marquer comme lu</a></div>
+                  </div>  
+    
+                  <div *ngIf="notifications.length != 0" class="notifications"> 
+                    <div *ngFor="let notification of notifications" style="color: black;  display: flex; flex-direction: column; ">  
+                      <span >{{notification.message}}</span>
+                      <span style="color: rgb(141, 141, 141);"> 
+                        <span style="float: right; font-size: 11px;" >Envoyée le {{notification.sentAt}}</span>
+                      </span>
+                    </div>
+                    
+                  </div> 
+                  <div *ngIf="notifications.length == 0" class="empty"> 
+                         Vous n'avez aucune notification
+                  </div>
+
+                </div> 
+              </div>  
+
+              <!-- Dropdown profile -->
+            <!--
+              <div class="profiledropdown" style="width: 200px;" appendTo="body"   ngbDropdown #myDrop="ngbDropdown">
+                <button class="btn btn-outline-light mr-2" style="width: 100%;" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">  
+                  <i class="fas fa-user-circle"></i>
+                  
+                </button>
+                <div style="z-index: auto;"  ngbDropdownMenu aria-labelledby="dropdownManual">  
+                  
+                  <button  
+                     (click)="openprofile()" 
+                     *ngIf="this.getUserRole() != 'ADMIN'"
+                     ngbDropdownItem> 
+                     Mon profil
+                  </button>
+                  <button   
+                   
+                    (click)="logout()"
+                  ngbDropdownItem> 
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                  </button> 
+                
+                </div>
+              </div>  -->
+            </mat-toolbar-row> 
+          
+          </mat-toolbar> 
+            <div class="content"  style="min-height: 430px; padding-bottom: 1.9rem; position: relative; padding-top : 60px ;  ">    
+
+              <div *ngIf="this.isloading" class="uploader-status"  style="text-align: center; position: absolute; left: 45%; top: 50%;"> 
+          
+               <app-loadingspinner></app-loadingspinner>
+              </div>        
+              <div *ngIf="isloading == false"> 
+    
+              </div>
+             
+              <div *ngIf="!this.isloading == true">     
+   
+               <div> 
+                  <router-outlet></router-outlet>  
+               </div>
+              </div>   
+             </div> 
+             <app-footer></app-footer>
+          </div>
+   </mat-sidenav-content>
+   </mat-sidenav-container>
+  </div>   
+  
+   
+  
+  

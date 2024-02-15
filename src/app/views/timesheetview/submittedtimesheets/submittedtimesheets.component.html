@@ -1,0 +1,49 @@
+<div> 
+    <div style="color: #095d85 ;" mat-dialog-title class="title">Les feuilles de temps soumises</div>    
+    <div class="container-fluid">  
+        <div class="row" style="margin-bottom: 20px;"> 
+            <div class="clo-12"> 
+                 <select 
+                  class="form-control"
+                  (change)="filter($event)"
+                 > 
+                     <option [value]="'TOUS'">Tous</option>
+                     <option [value]="'APPROUVED'">Approuvée</option> 
+                     <option [value]="'REJECTED'">Rejtée</option> 
+                     <option [value]="'SUBMITTED'">En attente d'approbation</option>
+                 </select>
+            </div>
+        </div> 
+        <div class="row" > 
+            <div class="col-12"  > 
+                <ul class="list-group" style="overflow-y:  scroll ; height: 300px;" >  
+                    <mat-progress-bar *ngIf="this.loading==true" style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar> 
+                    <div *ngIf="this.timesheets.length == 0 && this.loading ==false"><strong>Vide</strong></div>
+                    <li *ngFor="let timesheet of timesheets"  class="list-group-item" fxLayout="row" fxLayoutAlign="space-between center"> 
+                      <div> 
+                        <i class="fas fa-calendar-week"></i>  
+                        <strong> Semaine  : {{getDate(timesheet.dateDebut) | date:'longDate'}} - {{getDate(timesheet.dateFin) | date:'longDate'}}</strong> 
+                      </div>  
+                      <div [ngSwitch]="timesheet.status" >  
+                              <span *ngSwitchCase="'SUBMITTED'"  class="badge badge-info " style="font-size: 14px; max-height: 25px;">En attente d'approbation</span> 
+                              <span *ngSwitchCase="'APPROUVED'"  class="badge badge-success " style="font-size: 14px; max-height: 25px;">Approuvée</span>   
+                              <span *ngSwitchCase="'REJECTED'"  class="badge badge-danger " style="font-size: 14px; max-height: 25px;">Rejetée</span>  
+                      </div>
+                      <div>
+                      </div>
+                      <div>  
+                         <button mat-raised-button 
+                           (click)="voirTimesheet(timesheet)"
+                           style="background-color: #0c7fb4; color: white;" 
+                         > 
+                            <i class="fas fa-eye"></i> Voir 
+                         </button> 
+                      </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,74 @@
+  
+<div class="box">  
+            <div class="card logincard .justify-content-center">
+                   <div class="card-body"> 
+                     <div class="form-group text-center"> 
+                       <img  src="../../assets/logo_kbm.png" class="logokbm" />
+                     </div>
+                     
+                  <form #f="ngForm" class="form-container" ngNativeValidate  (ngSubmit) ="onSubmit(f.value)">  
+                    
+                    <div class="card-title text-center"> 
+                      <p class="title">Bienvenue sur <strong style="color: rgb(1,66,106)">MyTime</strong></p>
+                   </div>
+                      <div class="form-group" style="position: relative; width: 80%; margin-left: 10%;">
+                         
+                            <input  
+                             type="text"   
+                             name="username" 
+                             [(ngModel)]="username"
+                             class="form-control"  
+                             id="exampleInputEmail1"  
+                             aria-describedby="emailHelp"  
+                             placeholder="Nom d'utilisateur ou email"  
+                             style="border-radius: 8px; background-color: rgb(245, 245, 245); padding: 10px; text-align: center;"  
+                             required
+                           >    
+                           <i class="fas fa-user" style="position: absolute; top: 1.4px; padding: 10px;"></i>
+                          
+                    </div>                                                                                                                                  
+                                                                                                                                                                                                       
+                      <div class="form-group" style=" height:33px; width: 80%; margin-left: 10%; position: relative;">
+                        <a (click)="showpassword = !showpassword"  style="position: absolute; padding: 8px;  ; right: 0;"><i [ngClass]="showpassword ? 'fas fa-eye' : 'fas fa-eye-slash' " aria-hidden="true"></i></a>
+                        
+                        <input   
+                           [type]="showpassword ? 'text' : 'password'"
+                           name="password"    
+                           ngModel 
+                           class="form-control"  
+                           id="exampleInputPassword1"  
+                           placeholder="Mot de passe"      
+                           style="border-radius: 8px; padding: 10px;  background-color: rgb(245, 245, 245); text-align: center;"
+                           required 
+                           >  
+                           <i class="fas fa-lock" style="position: absolute; top: 1.4px; padding: 10px;"></i>
+
+                     </div>               
+                    <div class="form-group text-center"> 
+                        <button  
+                           [disabled] ="isLoading"
+                           type="submit"  
+                           class="btn connexionbtn"   
+                           style="width: 30%; border-radius: 20px ; background-color: rgb(1,66,106);color: white;" 
+                           > 
+                           <div class="spinner-border" role="status" *ngIf="isLoading">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                          <div *ngIf="!isLoading"> 
+                            Connexion 
+                          </div>
+                           
+                        </button>
+                    </div>  
+                
+                   
+                    <div class="form-group" style="display: flex; justify-content: space-between;">  
+                      <mat-checkbox (change)="setCheck($event.checked)"  color=primary>Se souvenir de moi</mat-checkbox>  
+                        <p class="resetpassword" (click)="openDialog()">Mot de passe oublié ?</p>
+                    </div>     
+                 </form>    
+                </div>
+            </div> 
+            
+  </div>
+  

@@ -1,0 +1,21 @@
+<div> 
+    <div mat-dialog-title class="title">Projets</div>  
+    <div style="max-height: 50vh; overflow-y : scroll;"> 
+        <div class="card" *ngFor="let project of projects" style="margin-bottom: 15px; ">
+            <div class="card-header" style="display: flex; justify-content: space-between;">
+                <strong>{{project[0]}}</strong> 
+                <div [ngSwitch]="project[1]"> 
+                    <div *ngSwitchCase="'EN_COURS'" class="en_cours">En cours</div>  
+                    <div *ngSwitchCase="'TERMINE'" class="termine">Terminé</div> 
+                    <div *ngSwitchCase="'TERMINE_EN_RETARD'" class="en_retard">Terminé en retard</div> 
+                    <div *ngSwitchCase="'ANNULE'" class="annule">Annulé</div>
+     
+                </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Charge prévue :  <strong>{{project[2]}} heures</strong></p> 
+              <span class="badge bg-primary rounded-pill" style="color: white; padding: 7px; float: right;" >Charge consommée : {{project[3].slice(0,2)}} heures {{project[3].slice(3,5)}} minutes</span>
+            </div>
+        </div>
+    </div>
+</div>

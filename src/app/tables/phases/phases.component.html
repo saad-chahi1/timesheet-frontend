@@ -1,0 +1,64 @@
+<div class="container-fluid"> 
+
+<input  
+  style="width: 200px;"  
+  class="form-control" 
+  type="text" 
+  placeholder="Chercher par phase" 
+  [(ngModel)]="searchvalue"
+  /> 
+<div class="table-responsive" style="min-height: 40vh; margin-top: 10px;">        
+<table class="table table-striped table-bordered" style="width: 100%;">
+    <thead>
+      <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nom de phase</th>
+          <th scope="col">Charge prévue</th> 
+          <th scope="col">Pourcentage d'accomplissement</th> 
+          <th scope="col">Charge restante</th>
+          <th scope="col" style="width: 90px;"> 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr *ngFor="let phase of Phases | phasesearchfilter:searchvalue  | slice: (page-1) * pageSize : page * pageSize ; ; let i = index;" >
+        <td scope="row">{{i+1}}</td>
+        <td>  
+            {{ getPhasename(phase.phaseType+"")}}
+        </td>
+        <td>{{phase.duree}} H</td> 
+        <td style="text-align: center;"> 
+                <div class="percent"> {{this.getPercent(phase['consomme'],phase.duree )}} %</div>
+                <div class="progress" style="width:100%;"> 
+                        <div class="progress-bar" role="progressbar"  [ngStyle]="{'width' : this.getPercent(phase['consomme'],phase.duree)+'%' }" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+        </td> 
+        <td>     
+         <div *ngIf="getEcart(phase) < 0" class="l">{{getEcart(phase)}} h</div> 
+         <div *ngIf="getEcart(phase) >= 0" class="g">{{getEcart(phase)}} h</div>
+        </td>
+        <td> 
+            <button mat-button 
+             (click)="updatePhase(phase)"
+            >       
+                <i class="fas fa-pen"></i>
+            </button> 
+            <button mat-button 
+             (click)="deletePhase(phase.id)"
+            >  
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>  
+      </div> 
+      <div fxLayout="row">  
+           <ngb-pagination 
+             [(page)]="page" 
+             [pageSize]="pageSize" 
+             [collectionSize]="Phases.length"> 
+           </ngb-pagination>  
+      </div> 
+</div>

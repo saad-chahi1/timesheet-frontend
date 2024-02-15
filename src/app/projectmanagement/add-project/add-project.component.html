@@ -1,0 +1,166 @@
+<div> 
+   <span mat-dialog-title class="title">Ajouter un projet</span> 
+   <form [formGroup]="fb"  (ngSubmit)="onAddProject()">  
+    <div class="form-row">
+        <div class="form-group col-md-12">
+          <input  
+               type="text"  
+               class="form-control"  
+               id="NomProjet" 
+               formControlName="nom" 
+               [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+               placeholder="Nom de projet">  
+            <div *ngIf="submitted && f.nom.errors" class="invalid-feedback"> 
+                <div *ngIf="f.nom.errors.required">Nom de projet requis</div>
+            </div> 
+          </div>
+      </div> 
+   <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs"> 
+  
+     <li [ngbNavItem]="1">
+       <a ngbNavLink>De Base</a>
+       <ng-template ngbNavContent>  
+
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label for="client">Client:</label>   
+                <select 
+                    class="form-control"
+                    id = "client" 
+                    formControlName="client"
+                 >   
+                    <option  
+                      *ngFor="let client of clients"  
+                      [value]="client.id"
+                    > 
+                     {{client.nom_client}} 
+                    </option>
+
+                </select>
+              </div>
+          </div> 
+          <div class="form-row">
+            <div class="form-group col-md-6">  
+                   <label style="display: flex;"> <div>Charge prévue (Heures)</div> :</label>
+                    <input 
+                      type="number"
+                      class="form-control" 
+                      id="duree" 
+                      formControlName="duree" 
+                     
+                    
+                    > 
+                   
+            </div>
+
+          </div>   
+          
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+                <label>Date de début :</label>   
+              <input  
+                   type="date"  
+                   class="form-control"  
+                   id="DateDebut" 
+                   formControlName="dateDebut" 
+                  > 
+              </div> 
+              <div class="form-group col-md-6"> 
+                <label>Date de fin estimée :</label>  
+                <input  
+                     type="date"  
+                     class="form-control"  
+                     id="DateFin"  
+                     formControlName="dateFin" 
+                     > 
+                </div>
+          </div>   
+          
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+              <label for="description">Description : </label>  
+              <textarea  
+                   type=""  
+                   class="form-control"  
+                   id="description" 
+                   formControlName="description"
+                   rows="3" 
+                   placeholder="Description">  
+              </textarea>
+              </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+              <label>Coût estimatif de projet :</label>  
+              <input  
+                   type="number"  
+                   class="form-control"  
+                   id="couts" 
+                   formControlName="coutestim" 
+                   placeholder="Coût estimatif"
+                   > 
+            </div> 
+            <div class="form-group col-md-6"> 
+                <label>Type de projet :</label>   
+                     <select 
+                        class="form-control"
+                        id = "projecttype" 
+                        formControlName="type" 
+                        [ngClass]="{ 'is-invalid': submitted && f.type.errors }" 
+                      > 
+                        <option [value]="'DEV'">Développement</option> 
+                        <option [value]="'BI'">BI</option> 
+                        <option [value]="'MAINT'">Maintenance</option>
+                     </select> 
+                     <div *ngIf="submitted && f.type.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.type.errors.required">Type de projet requis</div>
+                  </div> 
+              </div>
+          </div>   
+          
+          
+          
+              
+
+       </ng-template>
+     </li>
+     <li [ngbNavItem]="2">
+       <a ngbNavLink>Pièce jointe</a>
+       <ng-template ngbNavContent>
+        <ngx-dropzone  
+           accept="application/pdf"
+           (change)="onSelect($event)">  
+            <ngx-dropzone-label>Drop Files to upload or Click</ngx-dropzone-label>  
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">  
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>  
+            </ngx-dropzone-preview>  
+          </ngx-dropzone>  
+       </ng-template>
+     </li>  
+    </ul> 
+    <!-- buttons --> 
+     
+<div [ngbNavOutlet]="nav" class="mt-2"></div> 
+
+ <div class="form-row" style="margin-top: 10px;"> 
+   <div class="form-group col-md-6"> 
+     <button  
+       [disabled]="this.isLoading"  
+       mat-button   
+       style="background-color: green; color: white; width: 100%;"
+       class="ajoutbtn" 
+       type="submit"> 
+       <span *ngIf="!this.isLoading">Ajouter</span>  
+       <div *ngIf="this.isLoading" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+       </div>
+  </button> 
+   </div> 
+   <div class="form-group col-md-6"> 
+     <button [disabled]="this.isLoading" type="button" style="margin-right: 10px; width: 100%;" mat-button (click) = "this.Annuler()">Annuler</button>
+   </div> 
+ 
+ </div>
+  
+</form>
+</div>

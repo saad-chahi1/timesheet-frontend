@@ -1,0 +1,15 @@
+<span mat-dialog-title>
+    Alert
+</span>
+  
+  <div mat-dialog-content>
+    <p>Si vous avez effectué des modifications sur votre feuille , n'oubliez pas de les sauvegarder 
+       Cliquer sur <strong>OK</strong>  si vous voulez quitter cette page 
+    </p> 
+    <mat-checkbox style="margin-top: 20px;" [(ngModel)]="ischecked">Ne plus me le rappeler</mat-checkbox>
+  </div>
+  
+  <div mat-dialog-actions style="float: right;">
+    <button mat-button (click)="onDismiss()">Annuler</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()">OK</button>
+  </div>

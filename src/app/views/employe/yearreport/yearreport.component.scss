@@ -1,0 +1,42 @@
+th { 
+  text-align: center;
+} 
+
+td {  
+
+    text-align: center; 
+    font-size: 10px;  
+    padding-top: 15px;
+     
+}  
+
+.br {  
+  border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;
+  border-radius: 5px;
+}  
+
+.selected { 
+
+     background-color:rgb(3, 79, 129) ;  
+     color: white;
+}
+
+.svt { 
+   
+   font-size: 25px ; 
+   color: rgb(3, 79, 129) ;
+}
+
+.year { 
+    padding: 10px 10px 10px 10px;
+    margin: 5px ; 
+    width: 200px; 
+
+    background-color: rgb(3, 79, 129);   
+    float : right ; 
+    text-align: center;
+    color: white; 
+    font-size: 20px;  
+    font-family: sans-serif;
+    border-radius: 5px;
+}

@@ -1,0 +1,40 @@
+.title { 
+    color: #095d85;
+} 
+
+.en_cours { 
+    background-color: rgb(5, 72, 117);   
+    color: white; 
+    text-align: center;
+    padding: 5px; 
+    width: 80px; 
+    border-radius: 5px;
+} 
+
+.termine { 
+   background-color: green;  
+   color: white; 
+   text-align: center;
+   padding: 5px; 
+   width: 80px; 
+   border-radius: 5px;
+}  
+
+.en_retard { 
+   text-align: center;
+   background-color: rgb(128, 51, 0);  
+   color: white;
+   padding: 5px; 
+   width: 80px; 
+   border-radius: 5px;
+}
+
+.annule { 
+  
+    background-color: rgb(199, 7, 7);  
+    color: white; 
+    text-align: center;
+    padding: 5px; 
+    width: 80px; 
+    border-radius: 5px;
+}

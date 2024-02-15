@@ -1,0 +1,15 @@
+<div>  
+    <span mat-dialog-title class="title"> Temps de travail par phase </span>
+    <ul class="list-group">
+        <mat-progress-bar *ngIf="this.loading ==true" style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar> 
+        <li *ngFor="let phase of phases" class="list-group-item d-flex justify-content-between align-items-center">
+            <strong placement="top" ngbTooltip="Phase">{{phase[0]}}</strong>  
+            <strong placement="top" ngbTooltip="Date d'affectation">{{getdateobject(phase[1])  | date: 'dd/MM/yyyy'}}</strong>
+            <span placement="top" ngbTooltip="Temps consommé" class="badge badge-primary badge-pill" style="font-size: 20px;">{{phase[2]}}</span>
+        </li>  
+        <li class="list-group-item d-flex justify-content-between align-items-center"> 
+            <strong>Total</strong> 
+            <strong>{{this.getSum()}}</strong>
+        </li>
+    </ul>
+</div>

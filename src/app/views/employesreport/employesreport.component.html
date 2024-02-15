@@ -1,0 +1,228 @@
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem>
+      <a ngbNavLink><i class="fas fa-users"></i> Employés</a>
+      <ng-template ngbNavContent>
+
+        <div class="py-2" style="background-color: rgb(237, 241, 242); padding: 10px;"> 
+            <div class="container-fluid">
+                <div class="row br" style="min-height: 7vh; background-color: white; padding: 10px;">
+                       <div class="col-sm-10"> 
+                          
+                        <div fxLayout="row" fxLayoutGap="15px" fxLayout.xs="column" > 
+                            <div style="padding-top: 5px;"> <i class="fas fa-user" ></i></div> 
+                            <ng-select  
+                                style="min-width: 30vw;" 
+                                placeholder="Selectionner un employé" 
+                                [(ngModel)]="selectedemploye" 
+                            >
+                                <ng-option *ngFor="let employe of employes" [value]="employe.id">{{employe.fullName}}</ng-option>
+                            </ng-select>   
+                            <button mat-raised-button color="primary" (click)="search()" [disabled]="this.selectedemploye == null " style="width: 200px;" class="searchbutton" ><i class="fas fa-search"></i></button>    
+                        </div> 
+                        
+                       </div>  
+                      
+                       <div class="col-sm-2 year" ><i class="far fa-calendar"></i> 2021</div> 
+                 </div>   
+                <div class="row br" style="min-height: 20vh; background-color: white; padding: 10px; margin-top: 5px;"> 
+                     <div class="col-sm-4" style="margin-top: 5px;" > 
+                        <mat-card class="card"> 
+                           <div>Total des projets</div>   
+                           <div class="total">{{ this.totalprojects }}</div>
+                        </mat-card>
+                     </div>  
+                     <div class="col-sm-4" style="margin-top: 5px;"> 
+                        <mat-card class="card">  
+                            <div> 
+                                Total des affectations
+                            </div> 
+                            <div class="total">{{this.totalaffectation}}</div>
+                        </mat-card> 
+                    </div>  
+                    <div class="col-sm-4" style="margin-top: 5px;"> 
+                        <mat-card class="card" style="display: flex; align-items: center; justify-content: center;"> 
+                          <div class="profession">{{ this.profession | uppercase}}</div>
+                        </mat-card>
+                    </div> 
+                </div> 
+             <!-- Table -->
+                <div class="row br" style="min-height: 15vh; background-color: white; padding: 10px; margin-top: 5px;"> 
+                    <div class="col-12">   
+                        <table class="table table-bordered table-responsive-md">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Janvier</th>
+                                <th scope="col">Février</th>
+                                <th scope="col">Mars</th> 
+                                <th scope="col">Avril</th> 
+                                <th scope="col">Mai</th> 
+                                <th scope="col">Juin</th>   
+                                <th scope="col">Juillet</th>
+                                <th scope="col">Août</th> 
+                                <th scope="col">Septembre</th> 
+                                <th scope="col">Octobre</th> 
+                                <th scope="col">Novembre</th> 
+                                <th scope="col">Décembre</th> 
+                                <th><strong> Total</strong></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">Nombre d'heures approuvée</th>
+                                <td  [ngClass]="{'selected' : selected == 0}">{{this.barChartData[0].data[0]}} h</td>
+                                <td [ngClass]="{'selected' : selected == 1}"> {{this.barChartData[0].data[1]}} h</td>
+                                <td [ngClass]="{'selected' : selected == 2}">{{this.barChartData[0].data[2]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 3}"> {{this.barChartData[0].data[3]}} h</td>
+                                <td [ngClass]="{'selected' : selected == 4}">{{this.barChartData[0].data[4]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 5}">{{this.barChartData[0].data[5]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 6}">{{this.barChartData[0].data[6]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 7}">{{this.barChartData[0].data[7]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 8}" >{{this.barChartData[0].data[8]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 9}">{{this.barChartData[0].data[9]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 10}">{{this.barChartData[0].data[10]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 11}">{{this.barChartData[0].data[11]}} h</td> 
+                                
+                                <td>
+                                    <strong  style="color: green;">{{ this.getSum1() }} h</strong>
+                                </td>  
+                            </tr> 
+        
+                            <tr>
+                                <th scope="row">Nombre d'heures rejetée</th>
+                                <td  [ngClass]="{'selected' : selected == 0}">{{this.barChartData[1].data[0]}} h</td>
+                                <td [ngClass]="{'selected' : selected == 1}"> {{this.barChartData[1].data[1]}} h</td>
+                                <td [ngClass]="{'selected' : selected == 2}">{{this.barChartData[1].data[2]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 3}"> {{this.barChartData[1].data[3]}} h</td>
+                                <td [ngClass]="{'selected' : selected == 4}">{{this.barChartData[1].data[4]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 5}">{{this.barChartData[1].data[5]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 6}">{{this.barChartData[1].data[6]}} h</td> 
+                                <td [ngClass]="{'selected' : selected == 7}">{{this.barChartData[1].data[7]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 8}" >{{this.barChartData[1].data[8]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 9}">{{this.barChartData[1].data[9]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 10}">{{this.barChartData[1].data[10]}} h</td> 
+                                <td  [ngClass]="{'selected' : selected == 11}">{{this.barChartData[1].data[11]}} h</td> 
+                                <td>
+                                    <strong  style="color: red;">{{ this.getSum2() }} h</strong>
+                                </td>  
+                            </tr>
+                            </tbody>
+                          </table>
+                    </div>     
+                </div>  
+                <div class="row" style="margin-top: 5px;"> 
+                    <div class="col-12"> 
+                        <button mat-raised-button color="primary" style="float: right;"  (click)="changeChartType()"><i style="font-size: 25px;" [class]="this.barChartType === 'line' ? 'fas fa-chart-bar' : 'fas fa-chart-area' "></i></button>
+                    </div>
+                </div>   
+           
+             <div class="row br" style="min-height: 20vh; background-color: white; padding: 10px; margin-top: 5px;"> 
+                <div class="col-12">  
+                    <canvas  baseChart height="20vh" width="80vw"
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [plugins]="barChartPlugins"
+                        [legend]="barChartLegend" 
+                        [colors]="barChartColors"
+                        [chartType]="barChartType"
+                        (chartHover)="chartHovered($event)" 
+                    >
+                  </canvas>
+                </div>     
+            </div> 
+                 
+            </div>
+        </div>
+
+      </ng-template>
+    </li>
+    <li ngbNavItem>
+      <a ngbNavLink><i class="fas fa-sticky-note"></i> Projets / Feuilles de temps</a>
+      <ng-template ngbNavContent> 
+        <div class="py-2" style="background-color: rgb(237, 241, 242); padding: 10px; height: 100vh;"> 
+            <div class="container-fluid">
+                <div class="row br" style="min-height: 20vh; background-color: white; padding: 10px; margin-top: 5px;"> 
+                    <div class="col-12"> 
+                         <div class="row"> 
+                               <div class="pr">Feuilles de temps</div> 
+                         </div> 
+                         <div fxLayout="row" fxLayoutGap="15px" fxLayout.xs="column" > 
+                            <div style="padding-top: 5px;"> <i class="fas fa-user" ></i></div> 
+                            <ng-select  
+                                style="min-width: 30vw;" 
+                                placeholder="Selectionner un employé" 
+                                [(ngModel)]="selectedemploye2" 
+
+                            >
+                                <ng-option *ngFor="let employe of employes" [value]="employe.id">{{employe.fullName}}</ng-option>
+                            </ng-select>    
+                               <input type="date" class="form-control" [(ngModel)]="from" placement="top" ngbTooltip="Du" />
+                               <input type="date" class="form-control" [(ngModel)]="to" placement="top" ngbTooltip="Au" />
+                            <button mat-raised-button color="primary" (click)="search2()" [disabled]="selectedemploye2 == null" style="width: 200px;" class="searchbutton" ><i class="fas fa-search"></i></button>    
+                        </div> 
+                         <div class="row"> 
+                            <div class="col-sm-4" style="margin-top: 5px;" > 
+                                <mat-card class="card"> 
+                                   <div style="color: green;"> Total des feuilles de temps approuvées</div>   
+                                   <div class="total" style="color: green;">{{ this.timesheetsreportdata[0] }}</div>
+                                </mat-card>
+                             </div>  
+                             <div class="col-sm-4" style="margin-top: 5px;"> 
+                                <mat-card class="card">  
+                                    <div style="color: red;"> 
+                                        Total des feuilles de temps rejeteés
+                                    </div> 
+                                    <div class="total" style="color: red;">{{this.timesheetsreportdata[1]}}</div>
+                                </mat-card> 
+                            </div>  
+                            <div class="col-sm-4" style="margin-top: 5px;"> 
+                                <mat-card class="card"> 
+                                 <div style="color: rgb(3, 79, 129);"> 
+                                     Total des feuilles de temps en attente d'approbation
+                                 </div> 
+                                 <div class="total" >{{this.timesheetsreportdata[2]}}</div>
+                                </mat-card>
+                            </div> 
+                         </div>
+                    </div>
+                   
+               </div> 
+
+               <div class="row br" style=" background-color: white; padding: 10px; margin-top: 5px;"> 
+                <div class="col-12">    
+                    <div class="row"> 
+                      <div class="pr">Projets</div>  
+                    </div>  
+                    <div class="row">  
+                        <div fxLayout="row" fxLayoutGap="15px" fxLayout.xs="column" >
+                        <ng-select  
+                          style="min-width: 30vw;" 
+                          placeholder="Selectionner un client" 
+                          [(ngModel)]="selectedclient" 
+                        >
+                        <ng-option *ngFor="let client of clients" [value]="client.id">{{client.nom_client}}</ng-option>
+                       </ng-select>        
+                       <button mat-raised-button color="primary" (click)="search3()" [disabled]="this.selectedclient == null " style="width: 200px;" class="searchbutton" ><i class="fas fa-search"></i></button>       
+                     </div> 
+                     </div> 
+                    <div class="row" style="margin-top: 30px;"> 
+                                <canvas baseChart  height="65vh"
+                                  [data]="polarAreaChartData"
+                                  [labels]="polarAreaChartLabels"
+                                  [legend]="polarAreaLegend"
+                                  [chartType]="polarAreaChartType">
+                                </canvas>
+                    </div>
+                    
+                 </div>    
+                 </div>
+            </div> 
+        </div>    
+
+
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+

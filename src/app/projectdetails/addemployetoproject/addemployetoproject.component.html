@@ -1,0 +1,55 @@
+<div>  
+    <div matDialogTitle>Ajouter à l'équipe du projet </div>
+    <mat-form-field style="width: 100%;">
+        <mat-chip-list #chipList>
+          <mat-chip
+              *ngFor="let employe of chipSelectedEmployes"
+              [selectable]=true
+              [removable]=true
+              (removed)="removeEmploye(employe)">
+              {{employe.nom}} {{employe.prenom}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+              placeholder="Choisir un ou plusieurs employés"
+              #engineerInput
+              [formControl]="employeControl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]=true
+              (matChipInputTokenEnd)="addEmploye($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="employeeSelected($event)">
+          <mat-option *ngFor="let thisEmployeName of filteredEmployes | async" [value]="thisEmployeName">
+              {{thisEmployeName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> 
+
+      <div class="row">   
+        <div class="form-group col-md-6"> 
+          <button  
+               [disabled]="isdisabled || isLoading"
+               mat-button  
+               style="background-color: green; color: white; width: 100%;"
+               class="ajoutbtn"  
+               (click)="submit()"
+          > 
+            <span *ngIf="!this.isLoading">Ajouter</span>  
+            <div *ngIf="this.isLoading" class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+             </div>
+       </button>  
+
+        </div>
+        <div  class="form-group col-md-6"> 
+          <button   
+           type="button" 
+           style="margin-right: 10px; width: 100%;"  
+           (click)="Annuler()"
+           mat-button>Annuler</button>
+        </div>
+    </div>   
+
+</div>

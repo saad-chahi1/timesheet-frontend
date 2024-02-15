@@ -1,0 +1,173 @@
+ <div style="padding: 25px;" class="container-fluid">  
+    <div style="background-color: white;  border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;"> 
+     
+     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" style="padding: 20px;">  
+       
+         <div class="search">
+             <input  
+                   type="text"  
+                   class="form-control"  
+                   id="searchbar"  
+                   placeholder="Chercher" 
+                   [(ngModel)]="searchvalue"
+               >
+         </div>
+         <div  
+              fxLayout="row"   
+              ngStyle.sm="margin-top : 10px;"
+              fxLayoutAlign="space-between center"   
+              fxLayoutGap = "7px"
+          > 
+             
+             <button mat-raised-button   
+                  class="buttons"
+                  style="background-color: green; color: white;"  
+                  (click)="OpenAddProject()"> 
+                  Créer un nouveau projet
+             </button>   
+ 
+             <button  
+                 (click)="Refresh()"
+                 mat-button class="buttons"> 
+                 <i class="fas fa-sync-alt"></i>  
+                  Actualiser 
+             </button>
+ 
+             <div class="dropdown" >
+                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   Exporter 
+                 </button>
+                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                   <a class="dropdown-item" (click)="exportExcel()" >EXCEL</a>
+                   <a class="dropdown-item" (click)="exportPDF()">PDF</a>
+        
+                 </div>
+               </div>
+                       
+         </div> 
+        
+     </div> 
+    </div>
+ 
+     <div style="padding: 20px; background-color: rgb(255, 255, 255); border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ; margin-top: 10px;">  
+       <div fxLayout="row" fxLayoutAlign="space-between center" > 
+         <div style="width: 100%; min-height:50vh;  position: relative;"  >  
+  
+             <div *ngIf="this.projects.length == 0 && this.loading == false" class="pdd" style="position: absolute; top: 50%; left: 45%;"> Pas de données</div>
+             <div class="table-responsive" style="min-height: 40vh;"> 
+             <table class="table table-hover table-bordered" style="width: 100%;"  id="clienttable">
+                 <thead>
+                   <tr>
+                     <th scope="col" >#</th>
+                     <th scope="col" class="center">Nom du projet</th>
+                     <th scope="col" class="center">Nom du client</th>
+                     <th scope="col" class="center">Statut</th>
+                     <th scope="col">Équipe</th> 
+                     <th scope="col" ></th>
+                   </tr>
+                 </thead>
+                 <tbody> 
+                   
+                  <tr *ngIf="this.loading"> <td colspan="6"> <mat-progress-bar style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar> </td> </tr>           
+                 <ng-container *ngIf="!this.loading" >
+                   <tr *ngFor="let project of projects | projectsearchfilter:searchvalue |slice: (page-1) * pageSize : page * pageSize ; let i = index;">
+                     <td scope="row" class="center"><strong>{{i+1}}</strong></td> 
+                     <td class="center">{{project.nom}}</td>
+                     <td class="center">{{project.client.nom_client}}</td> 
+                     <td style=" display: flex; justify-content: center; align-items: center;">  
+                       <div [ngSwitch]="project.status"> 
+                         <div *ngSwitchCase="'EN_COURS'" > 
+                            <div class="EN_COURS boxshadowbutton">En cours</div>
+                         </div> 
+                         <div *ngSwitchCase="'TERMINE'" > 
+                          <div class="TERMINE boxshadowbutton">Terminé</div>
+                        </div> 
+                        <div *ngSwitchCase="'TERMINE_EN_RETARD'" > 
+                          <div class="TERMINE_EN_RETARD boxshadowbutton">Terminé en retard</div>
+                        </div> 
+                        <div *ngSwitchCase="'ANNULE'" > 
+                          <div class="ANNULE boxshadowbutton">Annulé</div>
+                        </div>
+                      </div>    
+                      </td>  
+                      <td> 
+
+                       <app-profilesview [users]="project.equipe" ></app-profilesview>
+                      </td>
+                     <td class="center">  
+                         <div class="dropdown" >
+                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Options
+                             </button>
+                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                               <a class="dropdown-item"  
+                                  style="cursor: pointer;" 
+                                  (click)="DeleteProject(project.id)"
+                               > 
+                                 <i class="fas fa-trash"></i>
+                                  Supprimer 
+                               </a> 
+                               <a class="dropdown-item"  
+                                 style="cursor: pointer;"  
+                                 (click)="ArchiveProject(project.id)"
+                               > 
+                               <i class="fas fa-archive"></i>
+                                  Archiver 
+                               </a>
+                               <a class="dropdown-item"   
+                                  style="cursor: pointer;" 
+                                  (click)="onUpdateProject(project)"
+                               >  
+                               <i class="fas fa-pen-square"></i>  
+                                  Modifier le projet 
+                               </a> 
+                               <a class="dropdown-item"   
+                                  style="cursor: pointer;"
+                                  [routerLink]="[project.id]"
+                               >  
+                               <i class="fas fa-folder-open"></i> 
+                                  Voir le projet
+                               </a> 
+                             </div>
+                           </div></td>
+                   </tr>  
+                   
+                  </ng-container>
+
+                 </tbody> 
+                 
+               </table> 
+              </div>
+         </div>   
+       </div>  
+       <div fxLayout="row">  
+         <ngb-pagination 
+         [(page)]="page" 
+         [pageSize]="pageSize" 
+         [collectionSize]="projects.length"> 
+        </ngb-pagination>  
+ 
+       </div>
+      
+     </div> 
+
+     <div style="background-color: white; margin-top: 20px;  border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;"> 
+         <div fxLayout="row"  
+              fxLayout.xs="column"
+              fxLayout.sm="column"    
+              style="padding: 20px;" 
+              fxLayoutGap="20px"
+              >  
+            <div class="status"> 
+              Les différents statuts d'un projet  :
+            </div>     
+            <div class="TERMINE boxshadowbutton">Terminé</div> 
+            <div class="TERMINE_EN_RETARD boxshadowbutton">Terminé en retard</div> 
+            <div class="ANNULE boxshadowbutton">Annulé</div> 
+            <div class="EN_COURS boxshadowbutton">En cours</div>
+         </div>
+     </div>
+  </div>
+  
+           
+ 

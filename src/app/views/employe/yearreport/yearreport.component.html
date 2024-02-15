@@ -1,0 +1,89 @@
+<div style="padding: 10px;"> 
+<div class="container-fluid">   
+
+    <div class="row br" style="background-color: white; padding: 10px;"> 
+      <div class="col-sm-12" >     
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" >   
+           <div class="svt">Suivez votre temps de travail</div>
+          <div class="year"> 
+            <i class="far fa-calendar"></i> {{currentyear}}
+          </div>  
+        </div>
+      </div>
+    </div>
+    <div class="row">   
+        
+        
+        <div class="col-12">  
+          <div class="row br" style="margin-top: 10px;">  
+            <table class="table table-bordered table-responsive-md">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Janvier</th>
+                    <th scope="col">Février</th>
+                    <th scope="col">Mars</th> 
+                    <th scope="col">Avril</th> 
+                    <th scope="col">Mai</th> 
+                    <th scope="col">Juin</th>   
+                    <th scope="col">Juillet</th>
+                    <th scope="col">Août</th> 
+                    <th scope="col">Septembre</th> 
+                    <th scope="col">Octobre</th> 
+                    <th scope="col">Novembre</th> 
+                    <th scope="col">Décembre</th> 
+                    <th><strong> Total des heures approuvées</strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Nombre d'heures approuvées</th>
+                    <td  [ngClass]="{'selected' : selected == 0}">{{this.lineChartData[0].data[0]}} h</td>
+                    <td [ngClass]="{'selected' : selected == 1}"> {{this.lineChartData[0].data[1]}} h</td>
+                    <td [ngClass]="{'selected' : selected == 2}">{{this.lineChartData[0].data[2]}} h</td> 
+                    <td [ngClass]="{'selected' : selected == 3}"> {{this.lineChartData[0].data[3]}} h</td>
+                    <td [ngClass]="{'selected' : selected == 4}">{{this.lineChartData[0].data[4]}} h</td> 
+                    <td [ngClass]="{'selected' : selected == 5}">{{this.lineChartData[0].data[5]}} h</td> 
+                    <td [ngClass]="{'selected' : selected == 6}">{{this.lineChartData[0].data[6]}} h</td> 
+                    <td [ngClass]="{'selected' : selected == 7}">{{this.lineChartData[0].data[7]}} h</td> 
+                    <td  [ngClass]="{'selected' : selected == 8}" >{{this.lineChartData[0].data[8]}} h</td> 
+                    <td  [ngClass]="{'selected' : selected == 9}">{{this.lineChartData[0].data[9]}} h</td> 
+                    <td  [ngClass]="{'selected' : selected == 10}">{{this.lineChartData[0].data[10]}} h</td> 
+                    <td  [ngClass]="{'selected' : selected == 11}">{{this.lineChartData[0].data[11]}} h</td> 
+                    
+                    <td>
+                        <strong style="color: green;">{{ this.getSum() }} h</strong>
+                    </td>  
+                </tr>
+                </tbody>
+                </table> 
+              </div>
+        </div>
+        
+    </div> 
+    <div class="row br" style="margin-top: 10px; padding: 7px;"> 
+        <div class="col-12"> 
+            <button mat-raised-button color="primary" style="float: right;"  (click)="changecharttype()"><i style="font-size: 25px;" [class]="this.lineChartType === 'line' ? 'fas fa-chart-bar' : 'fas fa-chart-area' "></i></button>
+        </div>
+    </div>
+    <div class="row" style="height: 80vh;"> 
+        <canvas   baseChart height="40vh" width="80vw"  
+
+             [datasets]="lineChartData"
+             [labels]="lineChartLabels"
+             [options]="lineChartOptions"
+             [colors]="lineChartColors"
+             [legend]="lineChartLegend"
+             [chartType]="lineChartType"
+             [plugins]="lineChartPlugins"
+             (chartHover)="chartHovered($event)"
+        > 
+        </canvas>    
+    </div>
+</div> 
+</div>
+
+              
+              
+                 
+        

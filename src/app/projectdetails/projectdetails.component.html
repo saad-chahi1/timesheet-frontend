@@ -1,0 +1,151 @@
+<div class="py-2" style="background-color: rgb(237, 241, 242);"> 
+<div class="container-fuild" style="padding-right: 10px; padding-left: 10px; margin-bottom: 10px;" >   
+    <div class="row mt-3">  
+         <div class="col-md-8"> 
+            <div class="card" style="min-height: 80vh ;">
+                <div class="card-header">  
+                   <div class="container-fluid">   
+                     <div class="row">  
+                        <div *ngIf="projectdetails" class="projecttitle col-8"  >{{ projectdetails.nom }}</div> 
+                        <div  *ngIf="projectdetails" class="text-right clientname col-4" placement="top" ngbTooltip="Client"> 
+                         <img src="../../assets/client.png" style="width: 70px; height: 50px;" /> {{(projectdetails).client.nom_client}} 
+                        </div>
+                     </div>   
+                     <div  *ngIf="projectdetails"> <i class="fas fa-calendar-alt"></i> {{projectdetails.dateDebut}} </div>
+                      <div  *ngIf="projectdetails"  [ngSwitch]="projectdetails.status" > 
+                       <div *ngSwitchCase="'EN_COURS'"> 
+                        <span class="badge badge-primary" placement="top" ngbTooltip="Statut du projet">En cours</span>
+                       </div> 
+                       <div *ngSwitchCase="'TERMINE'"> 
+                         <span class="badge badge-success" placement="top" ngbTooltip="Statut du projet">Terminé</span>
+                       </div>  
+                       <div *ngSwitchCase="'TERMINE_EN_RETARD'"> 
+                        <span class="badge badge-warning" placement="top" ngbTooltip="Statut du projet">Terminé en retard</span>
+                      </div>
+                      <div *ngSwitchCase="'ANNULE'"> 
+                        <span class="badge badge-info" placement="top" ngbTooltip="Statut du projet">Annulé</span>
+                       </div>  
+                      </div>
+                   </div> 
+                </div>
+                <div class="card-body"> 
+                    <div style="margin-bottom: 7px;"> 
+                        <div class="dropdown text-right">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; width: 120px; padding: 8px ;">
+                              <i class="far fa-plus-square"></i> Ajouter
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> 
+                               
+                              <a class="dropdown-item"   
+                                 style="cursor: pointer;"
+                                 (click)="AddPhase()"
+                                 >Ajouter une phase 
+                              </a>  
+                              <a class="dropdown-item" 
+                                 style="cursor: pointer;" 
+                                 (click)="AddEmploye()"
+                              > 
+                                  Ajouter un employé à l'équipe 
+                              </a> 
+                              <a class="dropdown-item"
+                                 style="cursor: pointer;" 
+                                 (click)="AddAffectation()"
+                              > 
+                                  Affecter 
+                              </a>
+                              <a class="dropdown-item"
+                                 style="cursor: pointer;" 
+                                 (click)="AddDocument()"
+                              > 
+                                  Ajouter une pièce jointe 
+                              </a>
+                            </div>
+                          </div>
+                    </div>
+                    <ul ngbNav #nav="ngbNav"  class="nav-tabs">
+                        <li [ngbNavItem]="1">
+                          <a ngbNavLink>Phases</a>
+                          <ng-template ngbNavContent>
+                             <app-phases  
+                                 [Phases]="Phases" 
+                                 (change)="change($event)"
+                                 (delete)="deletePhase($event)"
+                                 > 
+                             </app-phases>
+                          </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2">
+                          <a ngbNavLink>Équipe</a>
+                          <ng-template ngbNavContent>
+                            <app-equipe  
+                               [equipe]="projectdetails.equipe"  
+                               (delete)="deleteTeamMember($event)"
+                               > 
+                            </app-equipe>
+                          </ng-template>
+                        </li> 
+                        <li [ngbNavItem]="3">
+                            <a ngbNavLink>Affectations</a>
+                            <ng-template ngbNavContent>  
+                                <app-affectations  
+                                  [affectations]="Affectation" 
+                                  [equipe]="projectdetails.equipe" 
+                                  [phases]="Phases"
+                                  (delete)="deleteAffectation($event)"
+                                  (update)="updateAffectation($event)"  
+                                > 
+                                </app-affectations>
+                            </ng-template> 
+                        </li>
+                        <li [ngbNavItem]="4">
+                          <a ngbNavLink>Documents</a>
+                          <ng-template ngbNavContent>
+                            <app-documents 
+                                [project]="projectdetails" 
+                                (delete)="deleteDocument($event)"
+                            > 
+
+                            </app-documents>
+                          </ng-template>
+                        </li>
+                      </ul>
+                      
+                      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+                </div>
+              </div>
+
+         </div>  
+         <div class="col-md-4" >  
+          <div class="row">  
+            <div class="col mini-box">   
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="resumeprojet">RÉSUMÉ DU PROJET</h3>
+                </div>
+                <div class="card-body">
+                 <h5 class="card-title">Charge consommée</h5>
+                 <h3>{{ totalhours }}</h3>
+                
+               <div style="float : right" (click)="openProjectConsumed()"> <button mat-raised-button  style="background-color: #1e3d58 ; color: white;" > <i class="fas fa-table"></i> Génerer un rapport</button> </div>
+               </div>
+              </div>
+            </div>
+          
+          </div> 
+          <div class="row" style="margin-top: 20px;">  
+            <div class="col mini-box" style="height: 100%;">
+            
+             <app-projectpiechart [total]="getDurationFromPhases()" [conso]="this.totalhours"></app-projectpiechart>
+             
+             </div>
+            
+               
+          </div>
+            
+
+         </div>
+         
+    </div>
+
+</div> 
+</div>

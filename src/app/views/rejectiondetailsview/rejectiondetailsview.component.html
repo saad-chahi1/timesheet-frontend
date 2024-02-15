@@ -1,0 +1,39 @@
+<div> 
+    <span mat-dialog-title class="title">Détails du rejet</span>
+    <div class="container-fluid">  
+      <div class="row"> 
+        <div class="col-3"> <strong> <i class="far fa-clock"></i> Date du rejet :</strong></div> 
+        <div class="col-9 font">{{datatable.rejectedAt}}</div>
+      </div>   
+      <div class="row" style="margin-top: 20px;"> 
+        <div class="col-3"> <strong><i class="far fa-user-circle"></i> Rejetée par   :</strong></div> 
+        <div class="col-9 font">{{datatable.rejectedBy}}</div>
+      </div> 
+      <div class="row" style="margin-top: 20px;"> 
+        <div class="col-12"> 
+            <mat-expansion-panel
+            >
+                 <mat-expansion-panel-header>
+                 <mat-panel-title>
+                 <strong>Les raisons de refus</strong>
+                 </mat-panel-title>
+                 <mat-panel-description  >
+                    <div style="width: 100%; position: relative;"> 
+                        <mat-icon style="right: 0; position: absolute;">article</mat-icon>
+                    </div>
+                     
+                 </mat-panel-description>
+                 </mat-expansion-panel-header>
+                 <p class="font">{{datatable.raisonRejection}}</p>
+           </mat-expansion-panel>
+        </div>  
+         
+           
+      </div> 
+
+      
+    </div>
+        
+    
+  
+</div>

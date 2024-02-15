@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Roboto:wght@500&display=swap');
+
+
+.box {
+
+     display: flex;
+     justify-content: center;  
+     align-items: center;     
+    
+    
+     //image cover
+     background: url("../../assets/back1.jpg") no-repeat center center fixed;; 
+     background-repeat: no-repeat ;
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+     background-size: cover; 
+     min-height: 100vh; 
+     
+} 
+
+.title { 
+  
+    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Roboto', sans-serif; 
+    font-size: 17px;
+}
+
+
+.logincard{ 
+
+    border-radius: 15px 15px 15px 15px; 
+    opacity: 1 ; 
+    width: 35vw;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-style: none;  
+    animation-name: fadeIn ;
+    animation-duration: 4s; 
+   
+}     
+
+
+
+    @keyframes fadeInRight {
+        0% {
+          opacity: 0;
+          transform: translate3d(100%, 0, 0);
+        }
+      
+        100% {
+          opacity: 1;
+          transform: none;
+        }
+      } 
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        
+        } 
+        100% {
+          opacity: 1;
+   
+        }
+      }
+  
+
+
+.logokbm { 
+ width: 50%;
+} 
+
+.resetpassword { 
+
+     color: rgb(1,66,106);  
+     cursor: pointer; 
+     text-decoration: underline;
+     
+}  
+
+
+@media (min-width : 1550px ) {
+   .logincard { 
+      width: 27vw ;  
+      
+   }
+}
+
+
+//desktop
+
+@media (min-width: 1025px) and (max-width: 1500px) {
+  
+    /* CSS */ 
+
+    .logincard {  
+         width: 35vw; 
+         
+    }
+  
+}
+
+//tablets
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    
+    .logincard { 
+        width: 500px;
+    }
+   
+    
+  }
+
+//phones
+
+  @media (min-width: 320px) and (max-width: 768px) {
+   
+     .logincard { 
+
+         width: 350px; 
+         
+     }  
+
+     @media screen and (min-width: 2001px) {
+      /* Styles go here */
+      .logincard {
+          width: 20vw ; 
+      }
+  }
+
+  }
+

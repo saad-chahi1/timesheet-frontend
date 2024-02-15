@@ -1,0 +1,79 @@
+<div>  
+    <span mat-dialog-title>AJOUTER UNE PHASE</span> 
+    <form [formGroup]="fb"  (ngSubmit)="onAddPhase()">  
+        <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label style="width: 100%; display: flex;">Phase <div style="color: red;">*</div> : </label>
+                <!-- 
+                <select 
+                  class="form-control" 
+                  formControlName="phaseType"  
+                  [ngClass]="{ 'is-invalid': submitted && f.phaseType.errors }"
+                 >    <option [value]="'CADRAGE'" >Cadrage</option>
+                      <option [value]="'PLANIFICATION'" >Planification</option> 
+                      <option [value]="'CONCEPTION'">Conception</option> 
+                      <option [value]="'ANALYSE'">Analyse</option> 
+                      <option [value]="'REALISATION'">Réalisation</option> 
+                      <option [value]="'TEST'" >Test</option>  
+                      <option [value]="'DEPLOIEMENT'">Déploiement</option> 
+                      <option [value]="'CLOTURE'">Clôture</option>  
+                      
+                      <div *ngIf="submitted && f.phaseType.errors" class="invalid-feedback"> 
+                        <div *ngIf="f.phaseType.errors.required">Ce champ est requis</div>
+                      </div> 
+                 </select> -->
+                 <input  
+                    class="form-control"  
+                    type="text"
+                    placeholder="Phase"
+                    formControlName="phaseType"
+                    [ngClass]="{ 'is-invalid': submitted && f.phaseType.errors }"
+                 /> 
+                 <div *ngIf="submitted && f.phaseType.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.phaseType.errors.required">Veuillez saisir la phase</div>
+                </div> 
+                
+                
+              </div>
+          </div>  
+          <div class="form-row"> 
+            
+                 <div class="form-group col-md-6">  
+                   <label style="display: flex;"> <div>Charge prévue (Heures)</div> <div style="color: red;">*</div> :</label>
+                    <input 
+                      type="number"
+                      class="form-control" 
+                      id="duree" 
+                      formControlName="duree" 
+                      [ngClass]="{ 'is-invalid': submitted && f.duree.errors }"
+                    
+                    > 
+                    <div *ngIf="submitted && f.duree.errors" class="invalid-feedback"> 
+                      <div *ngIf="f.duree.errors.required">Veuillez saisir la charge prévue</div>
+                    </div>
+                 </div>
+          </div>
+        
+          <div class="form-row">   
+              <div class="form-group col-md-6"> 
+                <button  
+                [disabled]="this.isLoading"  
+                mat-button  
+                style="background-color: green; color: white; width: 100%;"
+                class="ajoutbtn" 
+                type="submit"> 
+                  <span *ngIf="!this.isLoading">Ajouter</span> 
+             </button>  
+
+              </div>
+              <div  class="form-group col-md-6"> 
+                <button  
+                 [disabled]="this.isLoading"  
+                 type="button" 
+                 style="margin-right: 10px; width: 100%;" 
+                 mat-button (click) = "this.Annuler()">Annuler</button>
+              </div>
+          </div>   
+       </form>   
+
+</div>

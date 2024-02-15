@@ -1,0 +1,79 @@
+<div> 
+    <h1 mat-dialog-title>Ajouter un client</h1>  
+    <form [formGroup]="fb"  (ngSubmit)="onAddClient()"> 
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <input  
+                 type="text"  
+                 class="form-control"  
+                 id="NomClient" 
+                 formControlName="nom_client"
+                 [ngClass]="{ 'is-invalid': submitted && f.nom_client.errors }"  
+                 placeholder="Nom  de client"> 
+              <div *ngIf="submitted && f.nom_client.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.nom_client.errors.required">Nom de client requis</div>
+              </div>     
+            </div>
+        </div>  
+        <div class="form-row">  
+           <div class="form-group col-md-12"> 
+              <input  
+                 type="email" 
+                 class="form-control" 
+                 id="emailclient"  
+                 formControlName="email" 
+                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                 placeholder="Email"> 
+                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.email.errors.required">Adresse courriel requis</div>
+                  <div *ngIf="f.email.errors.email">Veuillez entrer une adresse électronique valide</div>
+                </div>
+           </div> 
+        </div>   
+        <div class="form-row">  
+            <div class="form-group col-md-12"> 
+               <input  
+                  type="text" 
+                  class="form-control" 
+                  id="paysclient"  
+                  formControlName="pays" 
+                  [ngClass]="{ 'is-invalid': submitted && f.pays.errors }"
+                  placeholder="Pays"> 
+                  <div *ngIf="submitted && f.pays.errors" class="invalid-feedback"> 
+                   <div *ngIf="f.pays.errors.required">Pays requis</div>
+        
+                 </div>
+            </div> 
+         </div>  
+         <div class="form-row">  
+            <div class="form-group col-md-12 ">   
+             <input 
+                  type="tel" 
+                  class="form-control" 
+                  id="telClient"  
+                  formControlName="phone_num"
+                  placeholder="N*Tél"> 
+            </div>  
+          </div>  
+          <div class="form-row"> 
+            <div class="form-group col-md-6"> 
+                 <button  
+                 [disabled]="this.isLoading"  
+                 mat-button  
+                 style="background-color: green; color: white; width: 100%;"
+                 class="ajoutbtn" 
+                 type="submit"> 
+                   <span *ngIf="!this.isLoading">Ajouter</span> 
+                   <div *ngIf="this.isLoading" class="spinner-border"  role="status">
+                    <span class="sr-only">Loading...</span>
+                   </div>
+              </button> 
+            </div>  
+            <div class="form-group col-md-6"> 
+              <button [disabled]="this.isLoading" type="button" style="width: 100%;" mat-button (click) = "this.Annuler()">Annuler</button>
+            </div>
+
+          </div>
+        </form>
+
+</div>

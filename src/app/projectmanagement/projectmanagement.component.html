@@ -1,0 +1,16 @@
+
+<div> 
+    <mat-tab-group animationDuration="500ms">
+          <mat-tab label="Projets Actuels" >  
+            <div class="projectswrapper">  
+                <app-projets></app-projets>
+            </div> 
+          </mat-tab>
+          <mat-tab label="Projets Archivés">    
+            <ng-template matTabContent> 
+              <app-projets-archiv></app-projets-archiv>
+            </ng-template>
+          </mat-tab>
+    </mat-tab-group>
+</div>
+

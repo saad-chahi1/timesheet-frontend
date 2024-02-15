@@ -1,0 +1,35 @@
+<span mat-dialog-title>Rapport sur la charge consommée</span> 
+<div class="table-responsive" > 
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Phase</th>
+            <th scope="col">Consultant</th>
+            <th scope="col">Temps consommé</th> 
+            <th scope="col">Descriptions</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <ng-container *ngFor="let data of dataa">    
+            <tr>
+                <td [attr.rowspan]="data.result.length">{{data.phase}}</td>
+                <td>{{data.result[0][0]}}</td>  
+                <td>{{data.result[0][1]}}</td>  
+                <td>{{data.result[0][2]}}</td>  
+         
+            </tr>
+            <ng-container *ngFor="let d of data.result ; let i= index;">
+                <tr *ngIf="i!=0">
+                    <td>{{d[0]}}</td> 
+                    <td>{{d[1]}}</td>  
+                    <td>{{d[2]}}</td>
+                </tr>
+            </ng-container>
+        </ng-container>
+        </tbody>
+      </table> 
+      
+</div> 
+<div> 
+    <button mat-raised-button style="background-color: green; color: white;" (click)="exportExcel()"> <i class="fas fa-table"></i> Export to Excel</button>
+</div>

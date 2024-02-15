@@ -1,0 +1,115 @@
+<div>  
+    <span mat-dialog-title>AFFECTER UN EMPLOYÉ</span> 
+    <form [formGroup]="fb"  (ngSubmit)="onAddSubmit()">  
+        <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label style="width: 100%; display: flex;">Employé <div style="color: red;">*</div> :</label>
+                 <select 
+                  class="form-control" 
+                  formControlName="employe"  
+                  [ngClass]="{ 'is-invalid': submitted && f.employe.errors }"
+                 > 
+                      <option *ngFor="let employe of equipe" [value]="employe.id" > 
+                          {{ employe.nom }} {{ employe.prenom}}
+                      </option>   
+                 </select>  
+                 <div *ngIf="submitted && f.employe.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.employe.errors.required">Ce champ est requis</div>
+                 </div> 
+                 
+              </div>
+          </div>  
+        <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label style="width: 100%; display: flex;">Phase du projet <div style="color: red;">*</div> :</label>
+                 <select 
+                  class="form-control" 
+                  formControlName="phase"  
+                  [ngClass]="{ 'is-invalid': submitted && f.phase.errors }"
+                 >    <option *ngFor="let phase of phases" [value]="phase.id" [ngSwitch]="phase.phaseType"> 
+                         <div *ngSwitchCase="'REALISATION'"> 
+                          Réalisation
+                         </div> 
+                         <div *ngSwitchCase="'CADRAGE'"> 
+                          Cadrage
+                         </div> 
+                         <div *ngSwitchCase="'CONCEPTION'"> 
+                          Conception
+                         </div> 
+                         <div *ngSwitchCase="'ANALYSE'"> 
+                          Analyse
+                         </div> 
+                         <div *ngSwitchCase="'TEST'"> 
+                          Test
+                         </div> 
+                         <div *ngSwitchCase="'DEPLOIEMENT'"> 
+                          Déploiement
+                         </div> 
+                         <div *ngSwitchCase="'PLANIFICATION'"> 
+                          Planification
+                         </div> 
+                         <div *ngSwitchCase="'CLOTURE'"> 
+                          Clôture
+                         </div>  
+                      </option>  
+                 </select>  
+                 <div *ngIf="submitted && f.phase.errors" class="invalid-feedback"> 
+                  <div *ngIf="f.phase.errors.required">Ce champ est requis</div>
+                 </div> 
+              </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+                <label style="width: 100%; display: flex;">Description de tâches <div style="color: red;">*</div> :</label>   
+                <textarea  
+                     type=""  
+                     class="form-control"  
+                     id="description" 
+                     formControlName="descriptionTaches" 
+                     [ngClass]="{ 'is-invalid': submitted && f.descriptionTaches.errors }"
+                     rows="3" 
+                     placeholder="Description">  
+           </textarea>
+                  <div *ngIf="submitted && f.descriptionTaches.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.descriptionTaches.errors.required">Ce champ est requis</div>
+                </div> 
+              </div>
+          </div>   
+          <div class="form-row">
+            <div class="form-group col-md-12"> 
+              <label style="width: 100%; display: flex;">Délai  <div style="color: red;">*</div>:</label>  
+              <input  
+                   type="date"  
+                   class="form-control"  
+                   id="dateFinPrevue"  
+                   formControlName="dateFinPrevue"  
+                   [ngClass]="{ 'is-invalid': submitted && f.dateFinPrevue.errors }"
+                   >   
+                   <div *ngIf="submitted && f.dateFinPrevue.errors" class="invalid-feedback"> 
+                    <div *ngIf="f.dateFinPrevue.errors.required">Ce champ est requis</div>
+                </div>     
+                   
+              </div>
+          </div> 
+          <div class="form-row">   
+              <div class="form-group col-md-6"> 
+                <button  
+                [disabled]="this.isLoading"  
+                mat-button  
+                style="background-color: green; color: white; width: 100%;"
+                class="ajoutbtn" 
+                type="submit"> 
+                  <span>Sauvegarder</span> 
+             </button>  
+
+              </div>
+              <div  class="form-group col-md-6"> 
+                <button  
+                 type="button" 
+                 style="margin-right: 10px; width: 100%;" 
+                 mat-button (click) = "this.Annuler()">Annuler</button>
+              </div>
+          </div>   
+       </form>   
+
+</div>

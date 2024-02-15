@@ -1,0 +1,55 @@
+<div>   
+  <input  
+     class="form-control"  
+     type="text" style="width: 280px;"  
+     placeholder="Chercher par nom , prénom ou par phase"   
+     [(ngModel)]="searchvalue"
+     
+     />
+  <div class="table-responsive" style="min-height: 40vh; margin-top: 10px;"> 
+    <table class="table table-striped table-bordered" style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom complet</th> 
+            <th scope="col">Phase</th> 
+            <th scope="col">Date d'affecataion</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let affectation of affectations | affectationsearchfilter:searchvalue | slice: (page-1) * pageSize : page * pageSize ; ; let i = index ;">
+            <td scope="row">{{i+1}}</td>
+            <td>{{affectation.employe!.nom}} {{affectation.employe!.prenom}}</td>
+            <td>
+                {{getPhasename(affectation.phase!.phaseType+"")}}
+              </td>
+              <td>{{affectation.dateAffectation}}</td>  
+            <td> 
+              <div class="dropdown" >
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     Options
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item"  
+                     style="cursor: pointer;"  
+                     (click)="deleteAffectation(affectation.id)"              
+                  > 
+                  <i class="fas fa-trash"></i>  
+                      Supprimer
+                  </a> 
+                </div>
+              </div>
+            </td> 
+          </tr>
+        </tbody>
+      </table> 
+     </div>  
+     <div fxLayout="row">  
+      <ngb-pagination 
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [collectionSize]="affectations.length"> 
+      </ngb-pagination>  
+    </div> 
+</div>

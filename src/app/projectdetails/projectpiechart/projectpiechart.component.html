@@ -1,0 +1,20 @@
+
+<div class="chart-wrapper"> 
+    {{this.total}} {{this.conso}}
+    <canvas baseChart 
+    [data]="pieChartData" 
+    [labels]="pieChartLabels" 
+    [chartType]="pieChartType" 
+    [colors]="pieChartColors"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+    [legend]="pieChartLegend">
+  </canvas>
+  <div style="margin-top: 30px; text-align: start;"> 
+        
+     <h3>Charge prévue <span class="badge bg-secondary"><div style="color: white;"> {{ this.totalV }} H</div></span></h3>
+  
+  </div>
+  
+</div> 
+

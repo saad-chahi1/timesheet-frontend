@@ -1,0 +1,108 @@
+.projectwrapper{  
+    background-color:#EDF1F2 ; 
+    height: 100%;  
+}  
+
+
+th { 
+     background-color: rgb(184,204,234) ; 
+     color : rgb(0, 0, 0) ; 
+     text-align: center;
+}
+
+td { 
+
+    border-radius: 5px ;
+} 
+
+table { 
+    border-radius: 5px ;
+}
+ 
+
+.EN_COURS { 
+    color: white; 
+    background-color: #077692;  
+    width: 100px;  
+    padding: 8px 8px; 
+    text-align: center;
+    border-radius: 7px;
+}   
+
+.pdd { 
+    position: absolute;  
+    left: 43%;  
+    top: 50%;  
+    background-color: rgb(236, 233, 233);
+    padding: 10px 10px 10px 10px;  
+    border-radius: 4px;
+    font-family: serif;
+}
+
+
+#clienttable { 
+     height: 100%;
+}
+
+table { 
+    width: 100%;
+}
+
+
+th { 
+    max-width: 70px;
+}
+
+.center { 
+    text-align: center;
+}
+
+.TERMINE { 
+   
+    color: white; 
+    background-color: #0dbb24; 
+    width: 100px; 
+    padding: 8px 8px; 
+    text-align: center;
+    border-radius: 7px;
+}
+
+.TERMINE_EN_RETARD { 
+    color: white; 
+    background-color: #ca6009; 
+    width: 130px; 
+    padding: 8px 8px; 
+    text-align: center;
+    border-radius: 7px;
+} 
+
+.ANNULE{ 
+  
+    color: white; 
+    background-color: #e01608; 
+    width: 100px; 
+    padding: 8px 8px; 
+    text-align: center;
+    border-radius: 7px; 
+      
+}  
+
+.userpic { 
+      
+    height:35px;
+    width: 35px; 
+    background-color: #6A2CC3;
+    color: white; 
+    border-radius: 50%; 
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+  
+}
+
+.boxshadowbutton{ 
+    box-shadow : 5px 5px 6px 1px rgba(0,0,0,0.29)
+}
+.status { 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

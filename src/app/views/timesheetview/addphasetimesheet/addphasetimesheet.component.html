@@ -1,0 +1,108 @@
+<div> 
+      <div mat-dialog-title>Ajouter une ligne</div>   
+      <form [formGroup]="fb"  (ngSubmit)="onAddPhaseTimesheet()"> 
+        <div class="form-row"> 
+
+            <div class="form-group col-md-12">   
+                <label style="display: flex;">Client <div style="color: red;">*</div> :</label> 
+                <div class="selectWrapper">
+                    <select 
+                      class="form-control"
+                      id = "client" 
+                      formControlName="client"  
+                    >   
+                        <option 
+                          value=""
+                          selected 
+                          disabled
+                         > 
+                            Sélectionner le client
+                        </option>
+                        <option  
+                          *ngFor="let client of clients" 
+                          [value]="client.id"
+                         > 
+                         {{client.nom_client}}
+                        </option>
+                    </select>
+                </div> 
+            </div> 
+            </div>
+            <div class="form-row"> 
+            <div class="form-group col-md-12">   
+                <label style="display: flex;">Projet <div style="color: red;">*</div> :</label>  
+            
+                <div class="selectWrapper">
+                    <select      
+                      class="form-control"
+                      id = "projet"  
+                      [attr.disabled]="isdisabledprojet ? null : ''"
+                      formControlName="projet"   
+                    
+                    > 
+                    <option 
+                          value=""
+                          selected 
+                    > 
+                            Sélectionner le projet
+                        </option>  
+
+                    <option  
+                    *ngFor="let projet of filteredprojects" 
+                    [value]="projet.id"
+                   > 
+                     {{projet.nom}} - {{projet.type}}
+                  </option> 
+                 
+                                               
+                    </select>
+                </div> 
+            </div>  
+            </div> 
+            <div class="form-row"> 
+              <label  style="display: flex;">Phase <div style="color: red;">*</div> :</label> 
+              <div class="form-group col-md-12">
+                <div class="selectWrapper"> 
+                    <select 
+                       class="form-control"
+                       id = "phase"  
+                       [attr.disabled]="isdisabledphase ? null : ''"
+                       formControlName="phase" 
+                    >    
+                    <option 
+                       value=""
+                       selected 
+                       disabled
+                    > 
+                      Sélectionner la phase
+                    </option>
+                        <option *ngFor="let phase of phases" [value]="phase.id" >
+                            {{ getPhaseName(phase.phaseType+"")}}                           
+                        </option>
+
+                    </select>
+                </div>  
+            </div>   
+            </div> 
+     
+        <div class="form-row">   
+            <div class="form-group col-md-6"> 
+              <button  
+                  mat-button  
+                  [ngClass] = "this.fb.valid ? 'valid' : 'invalid'"
+                  class="ajoutbtn" 
+                  type="submit"> 
+                    <span >Ajouter</span> 
+              </button>  
+           
+            </div>
+            <div  class="form-group col-md-6"> 
+              <button  
+               type="button"  
+               
+               style="margin-right: 10px; width: 100%; background-color: rgb(219, 216, 216);" 
+               mat-button (click) = "this.Annuler()">Annuler</button>
+            </div>
+        </div>   
+      </form>      
+</div>

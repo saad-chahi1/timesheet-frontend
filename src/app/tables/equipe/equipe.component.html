@@ -1,0 +1,52 @@
+<div class="container-fluid">   
+  <input  
+  style="width: 250px;"  
+  class="form-control" 
+  type="text" 
+  placeholder="Chercher par nom , prénom ou email" 
+  [(ngModel)]="searchvalue"
+  /> 
+<div class="table-responsive" style="min-height: 40vh; margin-top: 10px;"> 
+<table class="table table-striped table-bordered" style="width: 100%;">
+    <thead>
+      <tr>
+        <th scope="col">#</th> 
+        <th scope="col"></th>
+        <th scope="col">Nom complet</th>
+        <th scope="col">Email</th>  
+        <th scope="col"></th>
+        <th scope="col"></th>   
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employe of equipe | teamsearchfilter:searchvalue | slice: (page-1) * pageSize : page * pageSize ; ;  let i = index ;">
+        <td scope="row">{{i+1}}</td> 
+        <td><div class="userpic">{{employe.nom![0]}}{{employe.prenom![0]}}</div></td>
+        <td>{{employe!.prenom}} {{employe!.nom}}</td>
+        <td>{{employe!.email}}</td>
+        <td> 
+          <button 
+              mat-raised-button color="primary" 
+              (click)="this.opendetailsemploye(employe.id)"
+          > 
+          <i class="fas fa-business-time"></i>
+          </button>
+        </td>
+        <td> 
+         <button   
+           (click)="removeEmployeFromTeam(employe)"
+           mat-raised-button color="primary"> 
+           <i class="fas fa-trash"></i></button> 
+        </td>     
+      </tr>
+    </tbody>
+  </table>  
+</div>   
+    <div fxLayout="row">  
+      <ngb-pagination 
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [collectionSize]="equipe.length"> 
+      </ngb-pagination>  
+    </div> 
+</div>

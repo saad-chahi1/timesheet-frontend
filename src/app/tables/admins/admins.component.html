@@ -1,0 +1,143 @@
+
+   <div style="padding: 25px; background-color : #EDF1F2; height: 100vh;" class="container-fluid"> 
+      <div style="padding: 20px; background-color: rgb(255, 255, 255); border-radius: 20px;">  
+        <div fxLayout="row" fxLayoutAlign="space-between center"> 
+            <div class="search">
+               
+              <div> 
+                <input  
+                     type="text"  
+                     class="form-control"  
+                     id="searchbar" 
+                     name="filter"  
+                     placeholder="Chercher" 
+                     [(ngModel)]="searchvalue"
+                  > 
+                </div>
+            </div>
+            <div  
+                 fxLayout="row"  
+                 fxLayout.xs="column"
+                 fxLayout.sm="column"    
+                 fxLayoutAlign="space-between center"  
+                 style="width: 30%;">  
+
+                <button mat-raised-button   
+                     class="buttons"
+                     style="background-color: green; color: white;"  
+                     (click)="OpenAddAdmin()"> 
+                     <i class="fas fa-user-plus"></i> 
+                     Ajouter 
+                </button>   
+
+                <button  
+                    (click)="Refresh()"
+                    mat-button class="buttons"> 
+                    <i class="fas fa-sync-alt"></i>  
+                     Actualiser 
+                </button>
+
+                <div class="dropdown" >
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Exporter 
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" (click)="exportExcel()">EXCEL</a>
+                      <a class="dropdown-item" (click)="savepdf()">PDF</a>
+                    </div>
+                  </div>
+                          
+            </div> 
+           
+        </div> 
+
+        <div fxLayout="row" style="padding: 10px;">  
+          <div class="table-responsive" style="height: 70vh;">
+            <table  
+                class="table table-hover table-bordered" 
+                style="width: 100% ;" 
+                data-show-export="true"
+                >
+                <thead style="width: 100%;">
+                  <tr>
+                    <th scope="col" > ID </th> 
+                    <th scope="col" ></th>
+                    <th scope="col" > E-mail</th> 
+                    <th scope="col"> Nom d'utilisateur</th>
+                    <th scope="col"> Adresse</th>
+                    <th scope="col"> Nom</th> 
+                    <th scope="col"> Prénom</th> 
+                    <th scope="col"> N*Tél</th> 
+                    <th scope="col"> Date de création</th> 
+                    <th scope="col"> Statut</th> 
+                    <th scope="col"> </th>
+                  </tr>
+                </thead>
+                <tbody>  
+                  <tr *ngIf="this.loading"> <td colspan="11"> <mat-progress-bar style="background-color: aqua;"  mode="indeterminate"></mat-progress-bar> </td> </tr>  
+                  <tr *ngFor="let user of  ( admins || [] ) | searchfilter:searchvalue| slice: (page-1) * pageSize : page * pageSize ; let i = index;  " >
+                    <th scope="row">{{i+1}}</th>
+                    <td> 
+                      <div 
+                        title="{{user?.nom }} {{user?.prenom }}"  
+                        class="userpic"> 
+                        {{user.nom![0].toLocaleUpperCase()}}{{user.prenom![0].toLocaleUpperCase()}} 
+                        </div> 
+                      </td>
+                    <td>{{user.email}}</td> 
+                    <td>{{user.username}}</td>
+                    <td>{{user.adresse}}</td>
+                    <td>{{user.nom}}</td> 
+                    <td>{{user.prenom}}</td> 
+                    <td>{{user.numeroTele}}</td> 
+                    <td>{{user.dateCreation}}</td> 
+                    <td> 
+                        <div *ngIf="user.enabled" class="active-dot"> </div>
+                        <div *ngIf="!user.enabled" class="red-dot"> </div> 
+                    </td> 
+                    <td>  
+                    <div class="dropdown" >
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                       
+                          <a class="dropdown-item"   
+                             style="cursor: pointer;"
+                            (click)="this.updateuser(user)"
+                          >  
+                            <i class="fas fa-user-edit"></i>  
+                            Modifier 
+                          </a>
+                          <a *ngIf="user.enabled" 
+                             class="dropdown-item"   
+                             style="cursor: pointer;" 
+                             (click)="this.disableAccount(user.id!)"
+                          >  
+                            <i class="fas fa-ban"></i>   
+                            Désactiver
+                          </a> 
+                          <a *ngIf="!user.enabled" 
+                              class="dropdown-item"  
+                              style="cursor: pointer;" 
+                              (click)="this.enableAccount(user.id!)"
+                             >  
+                            <i class="fas fa-ban"></i>  
+                            Activer
+                          </a>
+                        </div>
+                      </div></td>
+                  </tr> 
+                </tbody>
+              </table>  
+        </div>   
+       
+    </div>  
+    <ngb-pagination  
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [collectionSize]="admins.length"> 
+    </ngb-pagination>   
+  
+    </div>
+

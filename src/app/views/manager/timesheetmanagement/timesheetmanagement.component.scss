@@ -1,0 +1,87 @@
+.br {  
+    border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;
+    border-radius: 5px;
+}  
+
+.activebutton { 
+    float:95%; background-color: green; color: white;
+} 
+
+.inactivebutton { 
+    float:95%;  
+    background-color: rgb(0, 0, 0) ;  
+    color: white;
+} 
+
+.totalduration { 
+    font-size: 30px; 
+    font-family: Arial, Helvetica, sans-serif;
+}  
+
+.red { 
+    color : red ; 
+} 
+
+.green { 
+     color:  green ;
+} 
+
+.suborsav { 
+     color : #095d85 ;
+}
+
+
+
+.title { 
+   color :  #095d85 ;
+} 
+
+.app {  
+
+    background-color: green ; 
+    color: white;
+
+}   
+
+
+
+.timesheetetat{ 
+    
+    font-family: 'Roboto', sans-serif; 
+    font-size: 15px; 
+    
+   
+}      
+.PL{
+    box-shadow: rgb(140 133 133) 0px 0px 5px;
+    background-color: rgb(239, 239, 241);
+    padding-top: 2.5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    width: 220px;
+    border: 1px solid rgb(164, 173, 187) !important; 
+}
+
+.status{  
+
+    width: 20%; 
+    padding: 10px;  
+}  
+
+
+.week { 
+    font-size: 18px;
+}
+.fullname { 
+    font-size: 19px;
+    font-family: serif;
+}
+
+.rej {  
+    background-color: #e60000 ; 
+    color: white ;
+} 
+
+.duration { 
+     font-size: 30px;
+}

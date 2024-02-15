@@ -1,0 +1,149 @@
+
+<div style="padding: 25px;" class="container-fluid">   
+    <div style="background-color: white; margin-bottom: 20px;  border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;"> 
+        <div fxLayout="row"  
+             fxLayout.xs="column"
+             fxLayout.sm="column"    
+             style="padding: 20px;" 
+             fxLayoutGap="20px"
+             >   
+             <div><img class="imagearchive" src="../../../assets/archive.png" ></div>
+             <div style=" display: flex; justify-content: center; align-items: center;"> 
+                <h2 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Les projets archivés</h2>  
+             </div>   
+            
+        </div>
+    </div>
+    <div style="background-color: white;  border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ;"> 
+     
+     <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 20px;"> 
+         <div class="search">
+            
+             <input  
+ 
+               type="text"  
+               class="form-control"  
+               id="searchbar"  
+               placeholder="Chercher" 
+               (input)="onSearchChange($any($event.target).value)"
+ 
+               >
+         </div>
+         <div  
+              fxLayout="row"  
+              fxLayout.xs="column"
+              fxLayout.sm="column"    
+              fxLayoutAlign="space-between center"  
+              style="width: 30%;"> 
+        
+             <button  
+                 (click)="Refresh()"
+                 mat-button class="buttons"> 
+                 <i class="fas fa-sync-alt"></i>  
+                  Actualiser 
+             </button>
+ 
+             <div class="dropdown" >
+                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   Exporter 
+                 </button>
+                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                   <a class="dropdown-item" >EXCEL</a>
+                   <a class="dropdown-item">PDF</a>
+                   <a class="dropdown-item" href="#">CSV</a>
+                 </div>
+               </div>
+                       
+         </div> 
+        
+     </div> 
+    </div>
+ 
+     <div style="padding: 20px; background-color: rgb(255, 255, 255); border-radius: 10px; box-shadow : 0px 0px 19px -11px #000000 ; margin-top: 10px;">  
+       <div fxLayout="row" fxLayoutAlign="space-between center"> 
+         <div class="table-responsive" style="width: 100%; min-height:50vh;"   > 
+             <table class="table table-hover table-bordered" style="width: 100%;" id="clienttable">
+                 <thead>
+                   <tr>
+                     <th scope="col">#</th>
+                     <th scope="col">Nom du projet</th>
+                     <th scope="col">Nom du client</th>
+                     <th scope="col">Status</th>
+                     <th scope="col">Équipe</th> 
+                     <th scope="col"></th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr *ngFor="let project of projects | slice: (page-1) * pageSize : page * pageSize ; let i = index;">
+                     <td scope="row">{{i+1}}</td> 
+              
+                     <td>{{project.nom}}</td>
+                     <td>{{project.client.nom_client}}</td> 
+                     <td>  
+                       <div [ngSwitch]="project.status"> 
+                         <div *ngSwitchCase="'EN_COURS'" > 
+                            <div class="EN_COURS boxshadowbutton">En cours</div>
+                         </div> 
+                         <div *ngSwitchCase="'TERMINE'" > 
+                          <div class="EN_COURS boxshadowbutton">Terminé</div>
+                        </div> 
+                        <div *ngSwitchCase="'TERMINE_EN_RETARD'" > 
+                          <div class="TERMINE_EN_RETARD boxshadowbutton">Terminé en retard</div>
+                        </div> 
+                        <div *ngSwitchCase="'ANNULE'" > 
+                          <div class="ANNULE boxshadowbutton">Annulé</div>
+                        </div>
+                      </div>    
+                      </td>  
+                      <td> 
+                        <app-profilesview [users]="project.equipe" ></app-profilesview>
+                      </td>
+                     <td>  
+                         <div class="dropdown" >
+                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Options
+                             </button>
+                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                               <a class="dropdown-item"  
+                                  style="cursor: pointer;" 
+                                  (click)="DeleteProject(project.id)"
+                               > 
+                                 <i class="fas fa-user-minus"></i>  
+                                  Supprimer 
+                               </a> 
+                            
+                               <a class="dropdown-item"   
+                                  style="cursor: pointer;"
+                               >  
+                               <i class="fas fa-user" ></i>  
+                                  Voir le projet
+                               </a> 
+                               <a class="dropdown-item"   
+                                  style="cursor: pointer;"
+                               >  
+                               <i class="fas fa-user" ></i>  
+                                  Visualiser Gantt
+                               </a> 
+                               
+                             </div>
+                           </div></td>
+                   </tr>
+                   <tr>
+                 </tbody> 
+                 
+               </table>
+         </div>   
+       </div>  
+       <div fxLayout="row">  
+         <ngb-pagination 
+         [(page)]="page" 
+         [pageSize]="pageSize" 
+         [collectionSize]="projects.length"> 
+        </ngb-pagination>  
+ 
+       </div>
+      
+     </div> 
+
+     
+  </div>

@@ -1,0 +1,122 @@
+
+<div style=" min-height: 80vh; background-color: rgb(237, 241, 242);">   
+  
+<div class="container-fluid">  
+  <div class="row" style="margin-bottom: 10px;"> 
+       <span class="col-12 tb">Tableau de bord : Projets</span>
+  </div>  
+  <div class="row"> 
+    <div class="col-md-4 order-md-2">  
+      <div class="row">  
+        <div class="col"> 
+          <div class="card" style="border-color: #578ebe ;" >
+            <div class="card-body">
+             <h3 class="card-title tp">TOTAL DES PROJETS</h3>
+             <div class="card-text"> 
+                 <h2> {{projects.length}}</h2>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="row" style="margin-top: 10px; margin-bottom: 10px;"> 
+            <div class="col"> 
+              <div class="card" style="border-color: #578ebe ;" >
+                <div class="card-body">
+                 <h3 class="card-title tp">TOTAL DES AFFECTATIONS</h3>
+                 <div class="card-text"> 
+                     <h2> {{this.totalaffectation}}</h2>
+                 </div>
+                </div>
+              </div>
+            </div>
+          
+      </div>
+        
+   </div>    
+  <div class="col-md-8 order-md-1" style="min-height: 80vh; padding-bottom: 15px;" >  
+   <div style="padding: 20px; background-color: white; border-radius: 5px; height: 100%; ">  
+    <div>  
+        <button mat-raised-button> </button>   
+    </div>  
+   <div style="height: inherit; position: relative;">   
+    <input 
+      class="form-control" 
+      type="text" 
+      [(ngModel)]="searchvalue"
+      placeholder="Chercher par client , nom du projet "
+    />
+    <mat-progress-bar *ngIf="this.loading" mode="indeterminate"></mat-progress-bar> 
+    <div *ngIf="this.projects.length == 0 && this.loading == false" class="pdd"> Pas de données</div>
+    <div style="min-height: 80vh; max-height: 80vh; overflow-y: scroll; margin-top: 10px;">
+    <div *ngFor="let project of projects | projectsearchfilter:searchvalue" class="card" style="margin-top: 15px; box-shadow: 2px 2px 9px -4px rgba(0,0,0,0.94);">
+        <div class="card-header" style=" display: flex; justify-content: space-between;" >
+          <div> Client : <strong>{{project.client.nom_client}}</strong></div> 
+         <div [ngSwitch]="project.type"> 
+          <span *ngSwitchCase="'DEV'" class="badge badge-primary">Développement </span>
+          <span *ngSwitchCase="'BI'" class="badge badge-secondary">BI</span>
+          <span *ngSwitchCase="'MAINT'" class="badge badge-success">Maintenance</span>
+        </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title" style="margin-bottom: 20px;"> 
+            {{project.nom}} 
+          </h5>
+          
+          <div class="card-text">  
+            <div fxLayout="column" fxLayoutGap="20px" style="height: auto;">  
+             <div> 
+             <mat-expansion-panel (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                     <mat-panel-title>
+                           Description
+                     </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div>{{project.description}}</div>
+            </mat-expansion-panel>  
+            </div>    
+            <div> 
+            <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+               <mat-expansion-panel-header>
+                     <mat-panel-title>
+                       <div> <i class="fas fa-users"></i> <span> Équipe </span> </div>
+                     </mat-panel-title>
+              </mat-expansion-panel-header>
+             <div>  <app-profilesview [users]="project.equipe" ></app-profilesview> </div>
+            </mat-expansion-panel> 
+           </div> 
+           <div> 
+               <div> <i class="fas fa-calendar-alt"></i> Date de fin prévue : <strong>{{project.dateFin}}</strong></div>
+           </div>
+          </div>
+            
+          </div>
+            <div class="float-right"> 
+                <a (click)="openaffectation(project.id)" class="btn btn-primary" style="width: 120px;">  
+                    <i class="fas fa-tasks"></i>
+                   Phases
+                </a>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+           <strong> Date de début : {{project.dateDebut}}</strong>
+        </div>
+     </div>   
+    </div>  
+     <div style="margin-top: 10px;">
+     <ngb-pagination   
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [collectionSize]="projects.length"> 
+    </ngb-pagination>  
+    </div> 
+    </div>
+  </div> 
+   
+   
+  </div> 
+
+</div>

@@ -1,0 +1,109 @@
+<div class="wrapper">  
+    <span mat-dialog-title>Imprimer votre feuille de temps hebdomadaire</span> 
+    <div class="container-fluid #section-to-print" id="print"> 
+         <div class="row"> 
+             <div class="col-6"><i class="fas fa-calendar-week"></i>&ensp;Période : <strong>{{ this.weekdata[0] || "" }} / {{ this.weekdata[4] || ""}}</strong></div>
+         </div>    
+         <div class="row" style="margin-top: 20px;"> 
+            <div class="col-12">  
+                <div class="row"><div class="ah">Feuille de temps Hebdomadaire</div></div>    
+                <hr>
+                <div class="row table">  
+
+                    <table id="timesheettable" class="styled-table disablecontainer" style="width: 100%;"> 
+                        <thead>  
+                            <tr>  
+                             
+                              <th style="width: 100px;">Client</th> 
+                              <th style="width: 100px;">Projet</th> 
+                              <th style="width: 100px;">Phase</th>
+            
+                              <th>  
+                                 <div>Lundi</div>
+                                 {{ weekdata[0]}} 
+                               </th> 
+                              <th>  
+                                 <div>Mardi</div>
+                                  {{ weekdata[1]}} 
+                              </th> 
+                              <th>
+                                <div>Mercredi</div>
+                                  {{ weekdata[2]}}
+                              </th> 
+                              <th>  
+                                <div>Jeudi</div>
+                                {{weekdata[3] }}
+                              </th> 
+                              <th>  
+                                <div>Vendredi</div>
+                                {{ weekdata[4] }} 
+                              </th>   
+                             
+                           </tr> 
+             
+                       </thead>     
+                     
+                    <tbody class="tbody"> 
+                        <tr *ngFor="let t of datatable.data ; let i = index">    
+                            
+      
+                    
+                    
+                      <td>{{t.phase.project.client.nom_client}}</td> 
+                      <td>{{t.phase.project.nom}}</td> 
+                       <td>{{ 
+                         getPhaseName(t.phase.phaseType) 
+                        }}</td>
+              
+                           <td style="border-width: 0px; width : 75px; position: relative;">  
+                            
+                          
+                            <strong> {{this.datatable.data![i].week[0].duration.slice(0,5)}} </strong>
+             
+                           </td>
+                            <td style="border-width: 0px; width: 75px; position: relative;"> 
+                            
+                            <strong> {{this.datatable.data![i].week[1].duration.slice(0,5)}} </strong> 
+                            
+                           </td> 
+                           <td style="border-width: 0px; width: 75px; position: relative;"> 
+                            
+                             <strong> {{this.datatable.data![i].week[2].duration.slice(0,5)}}  </strong>
+                            
+                           </td> 
+                           <td style="border-width: 0px; width: 75px; position: relative;"> 
+                            <strong> {{this.datatable.data![i].week[3].duration.slice(0,5)}} </strong>  
+                            
+                           </td> 
+                           <td style="border-width: 0px; width: 75px; position: relative;"> 
+                            <strong>{{this.datatable.data![i].week[4].duration.slice(0,5)}}  </strong>  
+                           
+                            
+                           </td> 
+                        
+                        </tr>  
+                    </tbody>  
+                    <tfoot>
+         
+                 </tfoot>   
+                </table>  
+
+                </div>
+
+                <div class="row"> 
+                      Nombre total d'heures :<strong>&ensp;{{this.getTotalTimesheetDuration()}}</strong>
+                </div> 
+                <div class="row" style="margin-top: 15px;"> 
+                      <strong> Description :&ensp;</strong> {{ this.datatable.description || ""}}
+                </div>
+
+            </div>  
+          
+         </div>    
+    </div> 
+    <div class="row" style="margin-top: 20px;"> 
+        <button  mat-raised-button class="ml-auto" color="primary" (click)="printview()"> <i class="fas fa-print"></i> Imprimer</button>
+   </div>
+    
+
+</div>
