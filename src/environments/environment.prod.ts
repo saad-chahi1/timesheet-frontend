@@ -1,4 +1,4 @@
 export const environment = {
-  production: true , 
-  api_url : "https://timesheet-production-518e.up.railway.app/"
+  production: true, 
+  api_url : "https://timesheet-vdvn.onrender.com/"
 };
